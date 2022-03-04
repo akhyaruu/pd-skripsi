@@ -1,7 +1,7 @@
 # Dashboard Laravel Admin Ample - v1 with CRUD generator
 ---
 
-![header](https://github.com/Spyder-code/laravel-admin-ample/blob/main/ndashboard-ample.png)
+<!-- ![header](https://github.com/Spyder-code/laravel-admin-ample/blob/main/ndashboard-ample.png) -->
 laravel admin ample adalah template dashboard admin terintegrasi dengan laravel x8 yang simpel dan classic yang dapat digunakan untuk dasbor admin dan panel admin. Template ini dapat dikustomisasi dengan sempurna sesuai kebutuhan.
 - Laravel 8
 - Bootstrap 4

@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Visitor extends Model
 {
-    use HasFactory;
+   use HasFactory;
 
-    protected $fillable = [
-        'ip',
-        'location',
-        'count',
-    ];
+   protected $fillable = [
+      'ip',
+      'location',
+      'count',
+   ];
 }

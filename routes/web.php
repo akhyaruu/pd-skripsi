@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    echo Form::select('size', ['L' => 'Large', 'S' => 'Small'], 'S');
+   //  echo Form::select('size', ['L' => 'Large', 'S' => 'Small'], 'S');
     // $data = User::all();
     // return view('coba', compact('data'));
 });
