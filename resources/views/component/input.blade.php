@@ -1,4 +1,4 @@
 <div class="form-group">
-    {{ $label }}
-    {{ $input }}
+   {{ $label }}
+   {{ $input }}
 </div>
