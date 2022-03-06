@@ -15,14 +15,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-   //  echo Form::select('size', ['L' => 'Large', 'S' => 'Small'], 'S');
-    // $data = User::all();
-    // return view('coba', compact('data'));
+   // echo Form::select('size', ['L' => 'Large', 'S' => 'Small'], 'S');
+   // $data = User::all();
+   // return view('coba', compact('data'));
 });
 
 
 Route::get('/blank', function () {
-    return view('admin.blank');
+   return view('admin.blank');
 })->name('blank');
 
 Auth::routes();
@@ -34,3 +34,20 @@ Route::put('/profile/password/{id}', [App\Http\Controllers\UserController::class
 Route::put('/profile/image/{id}', [App\Http\Controllers\UserController::class, 'updateImage'])->name('profile.update.image');
 Route::resource('post',App\Http\Controllers\PostController::class);
 Route::resource('post',App\Http\Controllers\PostController::class);
+
+
+Route::prefix('/admin')->middleware(['auth', 'admin'])->group(function () {
+   Route::get('/main', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+});
+
+Route::prefix('/dosen')->middleware(['auth', 'dosen'])->group(function () {
+   Route::get('/main', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+});
+
+Route::prefix('/mahasiswa')->middleware(['auth', 'mahasiswa'])->group(function () {
+   Route::get('dashboard', 'MahasiswaPageController@index')->name('mahasiswa.dashboard');
+});
+
+Route::middleware(['auth'])->group(function () {
+   
+});
