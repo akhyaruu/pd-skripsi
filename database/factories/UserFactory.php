@@ -24,12 +24,13 @@ class UserFactory extends Factory
    public function definition()
    {
       return [
+         'role_id' => 1,
          'name' => 'Muhammad Aziz Almi',
          'username' => 'aziz almi',
          'email' => 'admin@yahoo.com',
-         'email_verified_at' => now(),
-         'password' => Hash::make('admin123'), // password
-         'remember_token' => Str::random(10),
+         // 'email_verified_at' => now(),
+         'password' => Hash::make('admin123'), 
+         // 'remember_token' => Str::random(10),
          'avatar' => '/storage/user/default.png',
       ];
    }
