@@ -47,7 +47,7 @@
                   <ul class="navbar-nav ms-auto d-flex align-items-center">
                      <li class=" in">
                         <form role="search" class="app-search d-none d-md-block me-3">
-                           <input type="text" placeholder="Search..." class="form-control mt-0">
+                           <input type="text" placeholder="Cari..." class="form-control mt-0">
                            <a href="" class="active">
                               <i class="fa fa-search"></i>
                            </a>
@@ -55,8 +55,13 @@
                      </li>
                      <li>
                         <a class="profile-pic" href="#">
+                           @if (isset(Auth::user()->avatar))
                            <img src="{{ Auth::user()->avatar }}" alt="user-img" width="36" class="img-circle"><span
-                              class="text-white font-medium">{{ Auth::user()->name }}</span></a>
+                              class="text-white font-medium">{{ Auth::user()->name }}</span>
+                           @else
+                           <span class="text-white font-medium">{{ Auth::user()->name }}</span>
+                           @endif
+                        </a>
                      </li>
                   </ul>
                </div>

@@ -28,14 +28,26 @@ class HomeController extends Controller
     */
    public function index()
    {
-      $visitor = Visitor::all();
-      $user = User::all();
-      return view('admin.main',compact('visitor','user'));
+      // $visitor = Visitor::all();
+      // $user = User::all();
+      // return view('admin.main',compact('visitor','user'));
+      
+      return view('pages.dashboard');
    }
 
    public function profile()
    {
       return view('admin.profile');
+   }
+
+   public function tugasAkhir()
+   {
+      return view('pages.tugasakhir');
+   }
+   
+   public function bimbingan()
+   {
+      return view('pages.bimbingan');
    }
 
 }
