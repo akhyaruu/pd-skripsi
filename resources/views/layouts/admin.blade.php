@@ -22,7 +22,8 @@
 
    <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
       data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
-      <div class="fixed-top" style="z-index: 99999">
+      <div class="fixed-top" style="z-index: 9">
+         <!-- z-index aslinya 99999 -->
          <header class="topbar" data-navbarbg="skin5">
             <nav class="navbar top-navbar navbar-expand-md navbar-dark">
                <div class="navbar-header" data-logobg="skin6">
@@ -131,6 +132,8 @@
       $('[data-toggle="tooltip"]').tooltip();
    });
    </script>
+
+   @yield('script')
 </body>
 
 </html>
