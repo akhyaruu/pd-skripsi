@@ -68,14 +68,19 @@
                      </tr>
                   </thead>
                   <tbody>
+                     <script>
+                     var user = [];
+                     </script>
                      @foreach ($user as $item)
                      <script>
-                     var id = "{{ $item->id }}";
-                     var roleId = "{{ $item->role_id }}";
-                     var name = "{{ $item->name }}";
-                     var username = "{{ $item->username }}";
-                     var email = "{{ $item->email }}";
-                     var avatar = "{{ $item->avatar }}";
+                     var userObject = {};
+                     userObject.id = '{{ $item->id }}';
+                     userObject.roleId = '{{ $item->role_id }}';
+                     userObject.name = '{{ $item->name }}';
+                     userObject.username = '{{ $item->username }}';
+                     userObject.email = '{{ $item->email }}';
+                     userObject.avatar = '{{ $item->avatar }}';
+                     user.push(userObject);
                      </script>
                      <tr>
                         <td>{{ $loop->iteration }}</td>
@@ -87,8 +92,8 @@
                         @endif
                         <td class="txt-oflo">{{ $item->username }}</td>
                         <td class="d-flex">
-                           <a href="" class="btn btn-warning mx-1 bDetail" title="Detail" data-bs-toggle="modal"
-                              data-bs-target="#mainModel"><i class="fas fa-eye"></i></a>
+                           <a href="" class="btn btn-warning mx-1 bDetail" idUser="{{ $item->id }}" title="Detail"
+                              data-bs-toggle="modal" data-bs-target="#mainModel"><i class="fas fa-eye"></i></a>
                            <form action="{{ route('user.destroy') }}" class="pull-left" method="delete">
                               @csrf
                               @method('DELETE')
@@ -133,7 +138,7 @@
                      </select>
                   </div>
                   <div class="mb-3">
-                     <label for="input-username" class="col-form-label">Username</label>
+                     <label for="input-username" class="col-form-label">NIDN / NIM</label>
                      <input type="text" class="form-control" name="username" id="input-username" required>
                   </div>
                   <div class="mb-3">
@@ -149,7 +154,6 @@
                      <button type="button" class="btn btn-danger text-light bCancel" data-bs-dismiss="modal"><i
                            class=" fas fa-eraser"></i> Cancel</button>
                      <button type="submit" class="btn btn-primary bSubmit"><i class="fas fa-upload"></i> Submit</button>
-
                   </div>
                </form>
             </div>
@@ -168,6 +172,9 @@
 @section('script')
 <script>
 $(document).ready(function() {
+
+   let idUser = '';
+
    $(".bTambah").click(function() {
       $("#mainModelLabel").text('Tambah User');
       $("#formSubmit").attr("action", "{{ route('user.create') }}");
@@ -175,12 +182,18 @@ $(document).ready(function() {
       $(".bCancel").hide();
       $(".bSubmit").show();
       $("#divPass").show();
+      $("#formSubmit")[0].reset();
+      $("select.form-select option:eq(0)").attr("selected", true);
+      $("select.form-select option:eq(1)").attr("selected", false);
+      $("select.form-select option:eq(2)").attr("selected", false);
       $("#input-password").attr("required", true);
       $("#formSubmit :input:not(:button)").prop("disabled", false);
+      $("#idInput").remove();
    });
+
    $("#mainTable").on('click', '.bDetail', function() {
       $("#mainModelLabel").text('Detail User');
-      $("#formSubmit").attr("action", "{{ route('user.edit') }}");
+      $("#formSubmit").attr("action", "{{ route('user.update') }}");
       $(".bEdit").show();
       $(".bCancel").hide();
       $(".bSubmit").hide();
@@ -188,14 +201,24 @@ $(document).ready(function() {
       $("#formSubmit :input:not(:button)").prop("disabled", true);
       $("#divPass").hide();
 
-      $("#input-nama").val(name);
-      $("#input-username").val(username);
-      $("#input-email").val(email);
-      if (roleId == 2) {
-         $("select.form-select option")[0].attr("selected", false);
-      } else {
-         $("#input-kategori").val(3);
-      }
+      idUser = $(this).attr('idUser');
+
+      user.forEach(element => {
+         if (element.id == idUser) {
+            $("#input-nama").val(element.name);
+            $("#input-username").val(element.username);
+            $("#input-email").val(element.email);
+
+            if (element.roleId == 2) {
+               $("select.form-select option:eq(0)").attr("selected", false);
+               $("select.form-select option:eq(1)").attr("selected", true);
+            } else {
+               $("select.form-select option:eq(0)").attr("selected", false);
+               $("select.form-select option:eq(2)").attr("selected", true);
+            }
+         }
+      });
+
 
    });
    $(".bEdit").click(function() {
@@ -204,10 +227,22 @@ $(document).ready(function() {
       $(".bEdit").hide();
       $(".bCancel").show();
       $(".bSubmit").show();
-      $("#input-password").attr("required", false);
 
+      if ($("#idInput").length) {
+         $("#idInput").remove();
+         let idInputElement = `<input id="idInput" type="text" name="id" value="${idUser}" hidden>`;
+         $("#formSubmit").append(idInputElement);
+      } else {
+         let idInputElement = `<input id="idInput" type="text" name="id" value="${idUser}" hidden>`;
+         $("#formSubmit").append(idInputElement);
+      }
 
    });
+
+   if (!($("#mainModel").is(":focus"))) {
+      $("#idInput").remove();
+   }
+
 });
 </script>
 @endsection

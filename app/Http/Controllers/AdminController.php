@@ -40,18 +40,17 @@ class AdminController extends Controller
       return back()->with('success',  'User ' . $user->name . ' berhasil ditambahkan');
    }
 
-   public function userEdit(Request $request)
+   public function userUpdate(Request $request)
    {
-      // $validate = $request->validate([
-      //    'name'      => 'required|max:255',
-      //    'role_id'   => 'required|max:1',
-      //    'username'  => 'required|max:255',
-      //    'email'     => 'required|max:255|unique:users,email',
-      //    'password'  => 'required|max:255|min:4',
-      //    'avatar'    => 'file|size:2500|dimensions:max_width=1280,min_height=720',
-      // ]);
-      // $user = User::create($validate);
-      // return back()->with('message', 'Surat Undangan/Daftar Hadir Kegiatan Berhasil Dikirim');
+      $validate = $request->validate([
+         'name'      => 'required|max:255',
+         'role_id'   => 'required|max:1',
+         'username'  => 'required|max:255',
+         'email'     => 'required|max:255',
+      ]);
+      $user = User::findOrFail($request->id);
+      $user->update($validate);
+      return back()->with('success',  'User ' . $user->name . ' berhasil diubah');
    }
 
    public function userDestroy(Request $request) 

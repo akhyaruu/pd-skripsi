@@ -51,12 +51,10 @@ Route::middleware(['auth'])->group(function () {
 Route::prefix('/admin')->middleware(['auth', 'admin'])->group(function () {
    Route::get('/m-user', [App\Http\Controllers\AdminController::class, 'user'])->name('user');
    Route::post('/m-user/create', [App\Http\Controllers\AdminController::class, 'userCreate'])->name('user.create');
-   Route::post('/m-user/edit', [App\Http\Controllers\AdminController::class, 'userEdit'])->name('user.edit');
+   Route::post('/m-user/update', [App\Http\Controllers\AdminController::class, 'userUpdate'])->name('user.update');
    Route::get('/m-user/delete', [App\Http\Controllers\AdminController::class, 'userDestroy'])->name('user.destroy');
    Route::get('/tugas-akhir', [App\Http\Controllers\AdminController::class, 'tugasakhir'])->name('tugasakhir');
 });
-
-
 
 
 
@@ -65,7 +63,7 @@ Route::prefix('/admin')->middleware(['auth', 'admin'])->group(function () {
 //    Route::get('/bimbingan', [App\Http\Controllers\HomeController::class, 'bimbingan'])->name('bimbingan');
 // });
 
-// Route::prefix('/mahasiswa')->middleware(['auth', 'mahasiswa'])->group(function () {
-//    Route::get('/tugasakhir', [App\Http\Controllers\HomeController::class, 'tugasakhir'])->name('tugasakhir');
-//    Route::get('/bimbingan', [App\Http\Controllers\HomeController::class, 'bimbingan'])->name('bimbingan');
-// });
+Route::prefix('/mahasiswa')->middleware(['auth', 'mahasiswa'])->group(function () {
+   Route::get('/tugasakhir', [App\Http\Controllers\HomeController::class, 'tugasakhir'])->name('tugasakhir');
+   Route::get('/bimbingan', [App\Http\Controllers\HomeController::class, 'bimbingan'])->name('bimbingan');
+});
