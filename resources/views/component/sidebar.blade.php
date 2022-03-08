@@ -20,9 +20,9 @@
    </a>
 </li>
 <li class="sidebar-item">
-   <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('tugasakhir') }}" aria-expanded="false">
-      <i class="fas fa-book" aria-hidden="true"></i>
-      <span class="hide-menu">Tugas Akhir</span>
+   <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('m-tugasakhir') }}"
+      aria-expanded="false"><i class="fas fa-book" aria-hidden="true"></i>
+      <span class="hide-menu">Manajemen Tugas Akhir</span>
    </a>
 </li>
 @endif

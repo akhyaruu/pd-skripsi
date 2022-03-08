@@ -54,7 +54,7 @@
             <div class="d-md-flex justify-content-between mb-3">
                <h3 class="box-title mb-0">List User</h3>
                <a href="" class="box-title mb-0 text-white btn btn-success bTambah" data-bs-toggle="modal"
-                  data-bs-target="#mainModel">Tambah User</a>
+                  data-bs-target="#mainModal">Tambah User</a>
             </div>
             <div class="table-responsive">
                <table id="mainTable" class="table no-wrap data-table table-bordered">
@@ -93,7 +93,7 @@
                         <td class="txt-oflo">{{ $item->username }}</td>
                         <td class="d-flex">
                            <a href="" class="btn btn-warning mx-1 bDetail" idUser="{{ $item->id }}" title="Detail"
-                              data-bs-toggle="modal" data-bs-target="#mainModel"><i class="fas fa-eye"></i></a>
+                              data-bs-toggle="modal" data-bs-target="#mainModal"><i class="fas fa-eye"></i></a>
                            <form action="{{ route('user.destroy') }}" class="pull-left" method="delete">
                               @csrf
                               @method('DELETE')
@@ -113,13 +113,13 @@
       </div>
    </div>
 
-   <!-- model detail dan edit user -->
-   <div class="modal fade " id="mainModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+   <!-- modal detail dan edit user -->
+   <div class="modal fade " id="mainModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
       style="z-index: 9999;">
       <div class="modal-dialog">
          <div class="modal-content">
             <div class="modal-header">
-               <h5 class="modal-title fw-bold" id="mainModelLabel">Detail User</h5>
+               <h5 class="modal-title fw-bold" id="mainModalLabel">Detail User</h5>
                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -176,7 +176,7 @@ $(document).ready(function() {
    let idUser = '';
 
    $(".bTambah").click(function() {
-      $("#mainModelLabel").text('Tambah User');
+      $("#mainModalLabel").text('Tambah User');
       $("#formSubmit").attr("action", "{{ route('user.create') }}");
       $(".bEdit").hide();
       $(".bCancel").hide();
@@ -192,7 +192,7 @@ $(document).ready(function() {
    });
 
    $("#mainTable").on('click', '.bDetail', function() {
-      $("#mainModelLabel").text('Detail User');
+      $("#mainModalLabel").text('Detail User');
       $("#formSubmit").attr("action", "{{ route('user.update') }}");
       $(".bEdit").show();
       $(".bCancel").hide();
@@ -223,7 +223,7 @@ $(document).ready(function() {
    });
    $(".bEdit").click(function() {
       $("#formSubmit :input:not(:button)").prop("disabled", false);
-      $("#mainModelLabel").text('Edit User');
+      $("#mainModalLabel").text('Edit User');
       $(".bEdit").hide();
       $(".bCancel").show();
       $(".bSubmit").show();
@@ -239,7 +239,7 @@ $(document).ready(function() {
 
    });
 
-   if (!($("#mainModel").is(":focus"))) {
+   if (!($("#mainModal").is(":focus"))) {
       $("#idInput").remove();
    }
 

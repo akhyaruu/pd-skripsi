@@ -53,7 +53,8 @@ Route::prefix('/admin')->middleware(['auth', 'admin'])->group(function () {
    Route::post('/m-user/create', [App\Http\Controllers\AdminController::class, 'userCreate'])->name('user.create');
    Route::post('/m-user/update', [App\Http\Controllers\AdminController::class, 'userUpdate'])->name('user.update');
    Route::get('/m-user/delete', [App\Http\Controllers\AdminController::class, 'userDestroy'])->name('user.destroy');
-   Route::get('/tugas-akhir', [App\Http\Controllers\AdminController::class, 'tugasakhir'])->name('tugasakhir');
+   Route::get('/m-tugasakhir', [App\Http\Controllers\AdminController::class, 'tugasakhir'])->name('m-tugasakhir');
+   Route::post('/m-tugasakhir/assign', [App\Http\Controllers\AdminController::class, 'tugasakhirAssign'])->name('m-tugasakhir.assign');
 });
 
 

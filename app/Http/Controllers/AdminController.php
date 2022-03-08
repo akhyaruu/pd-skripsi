@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Proposal;
+use App\Models\TugasAkhir;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +26,7 @@ class AdminController extends Controller
                ->select('users.*', 'roles.name as role')
                ->where('roles.name', '=', 'Mahasiswa')->count();
                
-      return view('pages.user', compact('user', 'dosen', 'mhs'));
+      return view('madmin.user', compact('user', 'dosen', 'mhs'));
    }
 
    public function userCreate(Request $request)
@@ -59,15 +61,26 @@ class AdminController extends Controller
          $user = User::findOrFail($request->id);
          $user->delete();
          Session::flash('success', $user->name . ' berhasil dihapus');
-     } 
-     return back();
+      } 
+      return back();
    }
-
-  
-   
 
    public function tugasakhir() 
    {
-      return view('admin.blank');
+      $proposal = DB::table('proposal')->join('users', 'proposal.mahasiswa_id', '=', 'users.id')
+               ->select('proposal.*', 'users.name as mahasiswa')->get();
+      $user = User::all();
+      return view('madmin.tugasakhir', compact('proposal', 'user'));
+   }
+
+   public function tugasakhirAssign(Request $request)
+   {
+      $validate = $request->validate([
+         'dosen_id'      => 'required',
+         'mahasiswa_id'  => 'required',
+      ]);
+
+      $tugasAkhir = TugasAkhir::create($validate);
+      
    }
 }

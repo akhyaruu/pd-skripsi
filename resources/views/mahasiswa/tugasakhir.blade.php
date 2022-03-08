@@ -27,9 +27,9 @@
          <div class="white-box analytics-info">
             <h3 class="box-title">Tanggal Pengajuan</h3>
             @if ($proposal)
-            <p class="fw-bold">{{ date("d-m-Y", strtotime($proposal->created_at)) }}</p>
+            <p class="">{{ date("d-m-Y", strtotime($proposal->created_at)) }}</p>
             @else
-            <p class="text-danger">belum mengajukan judul</p>
+            <p class="text-danger fw-bold">belum mengajukan judul</p>
             @endif
 
          </div>
@@ -57,9 +57,10 @@
                <div class="col-md-3 divTambahProposal">
                   <h3>Judul tugas akhir</h3>
                   @if ($proposal)
+                  <p class="text-info fw-bold"><i class="fas fa-history"></i> menunggu persetujuan</p>
+                  @else
                   <p class="text-danger">belum ada data tugas akhir</p>
                   @endif
-                  <!-- <p class="text-info fw-bold"><i class="fas fa-history"></i> menunggu persetujuan</p> -->
                   <!-- <p class="text-success fw-bold"><i class="fas fa-check"></i> telah disetujui</p> -->
                   @if ($proposal)
                   <button class="mt-4 btn btn-warning bEdit"><i class="fas fa-pencil-alt"></i> Edit tugas
@@ -69,8 +70,20 @@
                      akhir</button>
                   @endif
                </div>
+
+
                <!-- apabila sudah ada data tugas akhir -->
+               <script>
+               let topik = '';
+               let judul = '';
+               let idProposal = '';
+               </script>
                @if ($proposal)
+               <script>
+               topik = "{{ $proposal->topik }}";
+               judul = "{{ $proposal->judul }}";
+               idProposal = "{{ $proposal->id }}";
+               </script>
                <div class="col-md-9 divDetailProposal">
                   <table class="table">
                      <thead>
@@ -95,7 +108,7 @@
                @endif
 
                <div class="col-md-9 divFormProposal" style="display: none;">
-                  <form class="formProposal" action="{{ route('tugasakhir.create') }}" method="POST">
+                  <form class="formProposal" action="" method="POST">
                      @csrf
                      <div class="mb-3">
                         <label for="topikForm" class="form-label">Topik</label>
@@ -123,7 +136,7 @@
 
                      <button type="button" class="btn btn-danger text-light bClear"><i class="fas fa-eraser"></i>
                         Clear</button>
-                     <button type="submit" class="btn btn-primary"><i class="fas fa-upload"></i> Submit</button>
+                     <button type="submit" class="btn btn-primary bSubmit"><i class="fas fa-upload"></i> Submit</button>
                   </form>
                </div>
 
@@ -144,11 +157,35 @@ $(document).ready(function() {
    $(".bTambah").click(function() {
       $(this).prop('disabled', true);
       $(".divFormProposal").show();
+      $(".formProposal").attr("action", "{{ route('tugasakhir.create') }}");
    });
 
    $(".bClear").click(function() {
       $('.formProposal :input').val('');
    });
+
+   if ('{{ $proposal }}') {
+      $(".bEdit").click(function() {
+         $(".divFormProposal").show();
+         $('.divDetailProposal').hide();
+         $(".formProposal").attr("action", "{{ route('tugasakhir.update') }}");
+
+
+         $("#topikForm").val(topik);
+         $("#judulForm").val(judul);
+
+         if ($("#idInput").length) {
+            $("#idInput").remove();
+            let idInputElement = `<input id="idInput" type="text" name="id" value="${idProposal}" hidden>`;
+            $(".formProposal").append(idInputElement);
+         } else {
+            let idInputElement = `<input id="idInput" type="text" name="id" value="${idProposal}" hidden>`;
+            $(".formProposal").append(idInputElement);
+         }
+      });
+   }
+
+
 
 });
 </script>

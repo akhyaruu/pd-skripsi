@@ -12,12 +12,12 @@ class MahasiswaController extends Controller
    public function tugasAkhir()
    {
       $proposal = Proposal::where('mahasiswa_id', Auth::user()->id)->first();
-      return view('pages.tugasakhir', compact('proposal'));
+      return view('mahasiswa.tugasakhir', compact('proposal'));
    }
 
    public function bimbingan()
    {
-      return view('pages.bimbingan');
+      return view('mahasiswa.bimbingan');
    }
 
    public function tugasakhirCreate(Request $request) 
@@ -37,12 +37,10 @@ class MahasiswaController extends Controller
       $validate = $request->validate([
          'topik'     => 'required|min:3|max:255',
          'judul'     => 'required|min:3|max:255',
-         'abstrak'   => 'min:3|max:255',
-         'file'      => 'min:3|max:255',
+         'abstrak'   => 'min:10|max:255',
+         'file'      => 'mimes:pdf,doc,docx|max:1000',
       ]);
 
-      
-      
       $proposal = Proposal::findOrFail($request->id);
       $proposal->update($validate);
       return back()->with('success',  'Data tugas akhir berhasil diubah');
