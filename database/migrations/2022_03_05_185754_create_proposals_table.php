@@ -16,6 +16,8 @@ class CreateProposalsTable extends Migration
         Schema::create('proposal', function (Blueprint $table) {
             $table->id();
             $table->foreignId('mahasiswa_id')->constrained('users');
+            $table->foreignId('tugas_akhir_id')->nullable()->constrained('tugas_akhir');
+            $table->foreignId('bimbingan_id')->nullable()->constrained('bimbingan');
             $table->string('topik');
             $table->string('judul');
             $table->string('abstrak')->nullable();

@@ -64,6 +64,8 @@ Route::prefix('/admin')->middleware(['auth', 'admin'])->group(function () {
 // });
 
 Route::prefix('/mahasiswa')->middleware(['auth', 'mahasiswa'])->group(function () {
-   Route::get('/tugasakhir', [App\Http\Controllers\HomeController::class, 'tugasakhir'])->name('tugasakhir');
-   Route::get('/bimbingan', [App\Http\Controllers\HomeController::class, 'bimbingan'])->name('bimbingan');
+   Route::get('/tugasakhir', [App\Http\Controllers\MahasiswaController::class, 'tugasakhir'])->name('tugasakhir');
+   Route::post('/tugasakhir/create', [App\Http\Controllers\MahasiswaController::class, 'tugasakhirCreate'])->name('tugasakhir.create');
+   Route::post('/tugasakhir/update', [App\Http\Controllers\MahasiswaController::class, 'tugasakhirUpdate'])->name('tugasakhir.update');
+   Route::get('/bimbingan', [App\Http\Controllers\MahasiswaController::class, 'bimbingan'])->name('bimbingan');
 });

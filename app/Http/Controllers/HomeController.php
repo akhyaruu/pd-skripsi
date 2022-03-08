@@ -40,14 +40,7 @@ class HomeController extends Controller
       return view('admin.profile');
    }
 
-   public function tugasAkhir()
-   {
-      return view('pages.tugasakhir');
-   }
    
-   public function bimbingan()
-   {
-      return view('pages.bimbingan');
-   }
+  
 
 }
