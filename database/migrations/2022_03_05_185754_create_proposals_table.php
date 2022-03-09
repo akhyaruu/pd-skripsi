@@ -20,7 +20,7 @@ class CreateProposalsTable extends Migration
             $table->foreignId('bimbingan_id')->nullable()->constrained('bimbingan');
             $table->string('topik');
             $table->string('judul');
-            $table->string('abstrak')->nullable();
+            $table->text('abstrak')->nullable();
             $table->string('file')->nullable();
             $table->timestamps();
         });

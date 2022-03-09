@@ -50,6 +50,18 @@
       </div>
    </div>
 
+   @if($errors->any())
+   <div class="alert alert-danger" role="alert">
+      @foreach ($errors->all() as $error)
+      <li>{{ $error }}</li>
+      @endforeach
+   </div>
+   @elseif (session('success'))
+   <div class="alert alert-success" role="alert">
+      {{ session('success') }}
+   </div>
+   @endif
+
    <div class="row">
       <div class="col-md-12 col-lg-12 col-sm-12">
          <div class="white-box">
@@ -57,7 +69,7 @@
                <h3 class="box-title mb-0">Pengajuan Proposal Baru</h3>
             </div>
             <div class="table-responsiv">
-               <table class="table data-table table-bordered">
+               <table id="pengajuanTable" class="table data-table table-bordered">
                   <thead>
                      <tr>
                         <th class="border">No.</th>
@@ -68,26 +80,30 @@
                      </tr>
                   </thead>
                   <tbody>
+                     <script>
+                     var proposal = [];
+                     </script>
                      @foreach ($proposal as $item)
+                     <script>
+                     var proposalObject = {};
+                     proposalObject.id = '{{ $item->id }}';
+                     proposalObject.mahasiswaId = '{{ $item->mahasiswa_id }}';
+                     proposal.push(proposalObject);
+                     </script>
+                     @if ($item->tugas_akhir_id == null)
                      <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td class="txt-oflo">{{ $item->mahasiswa }}</td>
                         <td class="txt-oflo">{{ $item->topik }}</td>
                         <td class="txt-oflo">{{ $item->judul }}</td>
                         <td class="d-flex">
-                           <a class="btn btn-primary mx-1" title="Assign judul" data-bs-toggle="modal"
-                              data-bs-target="#mainModal"><i class="fas fa-user-plus"></i></a>
-                           <form action="" class="pull-left" method="delete">
-                              @csrf
-                              @method('DELETE')
-                              <input type="hidden" name="id" value="">
-                              <button type="submit"
-                                 onclick="return confirm('apakah kamu yakin menghapus proposal {{ $item->mahasiswa }}?')"
-                                 class="btn btn-danger mx-1" title="Delete"><i
-                                    class="fas fa-trash-alt text-white"></i></button>
-                           </form>
+
+                           <a class="btn btn-primary mx-1 bAssign" idProposal="{{ $item->id }}" title="Assign judul"
+                              data-bs-toggle="modal" data-bs-target="#mainModal"><i class="fas fa-user-plus"></i></a>
+
                         </td>
                      </tr>
+                     @endif
                      @endforeach
 
                   </tbody>
@@ -132,9 +148,10 @@
                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="{{ route('m-tugasakhir.assign') }}" method="POST">
+               @csrf
                <div class="modal-body">
                   <select class="form-select" name="dosen_id" id="input-kategori" required>
-                     <option selected>--pilih dosen--</option>
+                     <option disabled selected>--pilih dosen--</option>
                      @foreach ($user as $item)
                      @if ($item->role->name == 'Dosen')
                      <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -160,6 +177,23 @@
 @section('script')
 <script>
 $(document).ready(function() {
+
+   let idProposal = '';
+
+   $("#pengajuanTable").on('click', '.bAssign', function() {
+
+      idProposal = $(this).attr('idProposal');
+
+      proposal.forEach(element => {
+         if (element.id == idProposal) {
+            $("#input-mahasiswa").val(element.mahasiswaId);
+            $("#input-id-proposal").val(element.id);
+
+         }
+      });
+
+
+   });
 
 });
 </script>

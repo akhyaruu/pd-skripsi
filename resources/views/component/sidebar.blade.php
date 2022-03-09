@@ -30,12 +30,6 @@
 <!-- dosen -->
 @if (Auth::user()->role_id == 2)
 <li class="sidebar-item">
-   <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('tugasakhir') }}" aria-expanded="false">
-      <i class="fas fa-book" aria-hidden="true"></i>
-      <span class="hide-menu">Tugas Akhir</span>
-   </a>
-</li>
-<li class="sidebar-item">
    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('bimbingan') }}" aria-expanded="false">
       <i class="fas fa-calendar-check" aria-hidden="true"></i>
       <span class="hide-menu">Bimbingan</span>

@@ -10,9 +10,13 @@
       <div class="col-lg-4 col-md-4">
          <div class="white-box analytics-info">
             <h3 class="box-title">Dosen Pembimbing</h3>
-            <p>Prof. Dr. Ahmad Imam Mawardi, MA</p>
-            <!-- <p class="text-danger">belum ada dosen pembimbing</p> -->
-
+            @if ($dosen)
+            @if ($dosen->nama_dosen)
+            <p>{{ $dosen->nama_dosen }}</p>
+            @endif
+            @else
+            <p class="text-danger fw-bold">belum ada dosen pembimbing</p>
+            @endif
          </div>
       </div>
       <div class="col-lg-4 col-md-4">
@@ -57,11 +61,15 @@
                <div class="col-md-3 divTambahProposal">
                   <h3>Judul tugas akhir</h3>
                   @if ($proposal)
+                  @if ($proposal->tugas_akhir_id)
+                  <p class="text-success fw-bold"><i class="fas fa-check"></i> telah disetujui</p>
+                  @elseif ($proposal->tugas_akhir_id == null)
                   <p class="text-info fw-bold"><i class="fas fa-history"></i> menunggu persetujuan</p>
+                  @endif
                   @else
                   <p class="text-danger">belum ada data tugas akhir</p>
                   @endif
-                  <!-- <p class="text-success fw-bold"><i class="fas fa-check"></i> telah disetujui</p> -->
+
                   @if ($proposal)
                   <button class="mt-4 btn btn-warning bEdit"><i class="fas fa-pencil-alt"></i> Edit tugas
                      akhir</button>
@@ -76,13 +84,21 @@
                <script>
                let topik = '';
                let judul = '';
+               let abstrak = '';
                let idProposal = '';
+               let idTugasAkhir = '';
                </script>
+               @if (isset($proposal->abstrak))
+               <script>
+               abstrak = "{{ $proposal->abstrak }}";
+               </script>
+               @endif
                @if ($proposal)
                <script>
                topik = "{{ $proposal->topik }}";
                judul = "{{ $proposal->judul }}";
                idProposal = "{{ $proposal->id }}";
+               idTugasAkhir = "{{ $proposal->tugas_akhir_id }}";
                </script>
                <div class="col-md-9 divDetailProposal">
                   <table class="table">
@@ -98,7 +114,8 @@
                            <td>{{ $proposal->topik }}</td>
                            <td>{{ $proposal->judul }}</td>
                            <td style="min-width:150px">
-                              <button class="btn btn-primary">Abstrak</button>
+                              <button class="btn btn-primary bAbstrak" data-bs-toggle="modal"
+                                 data-bs-target="#abstrakModal">Abstrak</button>
                               <button class="btn btn-primary">File</button>
                            </td>
                         </tr>
@@ -123,15 +140,18 @@
                      </div>
 
                      <!-- apabila sudah di acc judulnya -->
-                     <!-- <div class="mb-3">
-                        <label for="abstrakForm">Abstrak</label>
-                        <textarea name="abstrak" class="form-control" placeholder="Masukan isi abstrak (max: 250 kata)"
-                           id="abstrakForm" style="height: 230px"></textarea>
+                     <div class="divAcc" hidden>
+                        <div class="mb-3">
+                           <label for="abstrakForm">Abstrak</label>
+                           <textarea name="abstrak" class="form-control"
+                              placeholder="Masukan isi abstrak (max: 250 kata)" id="abstrakForm"
+                              style="height: 230px"></textarea>
+                        </div>
+                        <div class="mb-3">
+                           <label for="proposalForm" class="form-label">File Proposal</label>
+                           <input type="file" name="file" class="form-control" id="proposalForm">
+                        </div>
                      </div>
-                     <div class="mb-3">
-                        <label for="proposalForm" class="form-label">File Proposal</label>
-                        <input type="file" name="file" class="form-control" id="proposalForm">
-                     </div> -->
                      <!-- apabila sudah di acc judulnya -->
 
                      <button type="button" class="btn btn-danger text-light bClear"><i class="fas fa-eraser"></i>
@@ -139,14 +159,26 @@
                      <button type="submit" class="btn btn-primary bSubmit"><i class="fas fa-upload"></i> Submit</button>
                   </form>
                </div>
-
-
             </div>
-
-
          </div>
       </div>
    </div>
+
+   <!-- Modal -->
+   <div class="modal fade" id="abstrakModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Isi Abstrak</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <p id="isiAbstrak"></p>
+            </div>
+         </div>
+      </div>
+   </div>
+
 </div>
 @endsection
 
@@ -169,10 +201,14 @@ $(document).ready(function() {
          $(".divFormProposal").show();
          $('.divDetailProposal').hide();
          $(".formProposal").attr("action", "{{ route('tugasakhir.update') }}");
-
+         $('.bEdit').prop("disabled", true);
 
          $("#topikForm").val(topik);
          $("#judulForm").val(judul);
+
+         if (abstrak) {
+            $("#abstrakForm").val(abstrak);
+         }
 
          if ($("#idInput").length) {
             $("#idInput").remove();
@@ -182,10 +218,24 @@ $(document).ready(function() {
             let idInputElement = `<input id="idInput" type="text" name="id" value="${idProposal}" hidden>`;
             $(".formProposal").append(idInputElement);
          }
+
+         if (idTugasAkhir) {
+            $(".divAcc").prop("hidden", false);
+         }
+
+      });
+
+
+      $(".bAbstrak").click(function() {
+         if (abstrak) {
+            $("#isiAbstrak").text(abstrak);
+         } else {
+            $("#isiAbstrak").text('abstrak belum ditambahkan');
+         }
       });
    }
 
-
+   isiAbstrak
 
 });
 </script>

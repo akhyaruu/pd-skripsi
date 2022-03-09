@@ -132,7 +132,7 @@
                   <div class="mb-3">
                      <label for="input-kategori" class="col-form-label">Kategori</label>
                      <select class="form-select" name="role_id" id="input-kategori" required>
-                        <option selected>--pilih kategori--</option>
+                        <option disabled selected>--pilih kategori--</option>
                         <option value="2">Dosen</option>
                         <option value="3">Mahasiswa</option>
                      </select>
@@ -218,9 +218,8 @@ $(document).ready(function() {
             }
          }
       });
-
-
    });
+
    $(".bEdit").click(function() {
       $("#formSubmit :input:not(:button)").prop("disabled", false);
       $("#mainModalLabel").text('Edit User');

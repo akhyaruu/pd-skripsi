@@ -15,7 +15,7 @@ class AdminController extends Controller
    public function user() 
    {
       $user = DB::table('users')->join('roles', 'users.role_id', '=', 'roles.id')
-               ->select('users.*', 'roles.name as role')
+               ->select('users.*', 'roles.name as role')->orderBy('created_at', 'desc')
                ->where('roles.name', '!=', 'Admin')->get();
       
       $dosen =  DB::table('users')->join('roles', 'users.role_id', '=', 'roles.id')
@@ -68,7 +68,7 @@ class AdminController extends Controller
    public function tugasakhir() 
    {
       $proposal = DB::table('proposal')->join('users', 'proposal.mahasiswa_id', '=', 'users.id')
-               ->select('proposal.*', 'users.name as mahasiswa')->get();
+               ->select('proposal.*', 'users.name as mahasiswa')->orderBy('created_at', 'desc')->get();
       $user = User::all();
       return view('madmin.tugasakhir', compact('proposal', 'user'));
    }
@@ -79,8 +79,12 @@ class AdminController extends Controller
          'dosen_id'      => 'required',
          'mahasiswa_id'  => 'required',
       ]);
-
-      $tugasAkhir = TugasAkhir::create($validate);
       
+      $tugasAkhir = TugasAkhir::create($validate);
+      $proposal = Proposal::findOrFail($request->id_proposal);
+      $proposal->tugas_akhir_id = $tugasAkhir->id;
+      $proposal->save();
+      
+      return back()->with('success',  'Proposal telah disetujui dan berhasil di serahkan kepada dosen pembimbing');
    }
 }

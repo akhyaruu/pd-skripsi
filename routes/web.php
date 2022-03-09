@@ -59,10 +59,9 @@ Route::prefix('/admin')->middleware(['auth', 'admin'])->group(function () {
 
 
 
-// Route::prefix('/dosen')->middleware(['auth', 'dosen'])->group(function () {
-//    Route::get('/tugasakhir', [App\Http\Controllers\HomeController::class, 'tugasakhir'])->name('tugasakhir');
-//    Route::get('/bimbingan', [App\Http\Controllers\HomeController::class, 'bimbingan'])->name('bimbingan');
-// });
+Route::prefix('/dosen')->middleware(['auth', 'dosen'])->group(function () {
+   Route::get('/m-bimbingan', [App\Http\Controllers\DosenController::class, 'bimbingan'])->name('m-bimbingan');
+});
 
 Route::prefix('/mahasiswa')->middleware(['auth', 'mahasiswa'])->group(function () {
    Route::get('/tugasakhir', [App\Http\Controllers\MahasiswaController::class, 'tugasakhir'])->name('tugasakhir');
