@@ -17,7 +17,7 @@ class CreateBimbingansTable extends Migration
             $table->id();
             $table->foreignId('dosen_id')->constrained('users');
             $table->foreignId('mahasiswa_id')->constrained('users');
-            $table->integer('total');
+            $table->integer('total')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();
         });
