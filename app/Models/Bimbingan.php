@@ -9,4 +9,5 @@ class Bimbingan extends Model
 {
    use HasFactory;
    protected $table = 'bimbingan';
+   protected $fillable = ['dosen_id', 'mahasiswa_id', 'total', 'status'];
 }

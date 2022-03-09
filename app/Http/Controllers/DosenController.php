@@ -79,15 +79,28 @@ class DosenController extends Controller
 
    public function bimbinganJadwalCreate(Request $request)
    {
-      $validate = $request->validate([
+      $vbimbingan = $request->validate([
          'mahasiswa_id'    => 'required',
-         'proposal_id'     => 'required',
-         'tgl_bimbingan'   => 'required|date',
-         'judul'           => 'required|min:3|max:255',
-         'catatan'         => 'required|min:3|max:255',
+      ]);
+      $vbimbingan['dosen_id'] = Auth::user()->id;
+      $bimbingan = Bimbingan::create($vbimbingan);
+
+      
+      $vjadwal = $request->validate([
+         'tgl_bimbingan'   => 'required',
+         'judul'           => 'required',
+         'catatan'         => 'required',
       ]);
 
-      $bimbingan = Bimbingan::
+      $vjadwal['bimbingan_id'] = $bimbingan->id;
+      $bimbingan = Jadwal::create($vjadwal);
+
+      $proposal = Proposal::findOrFail($request->proposal_id);
+      $proposal->bimbingan_id = $bimbingan->id;
+      $proposal->save();
+
+      return back()->with('success',  'Jadwal bimbingan berhasil dibuat');
+
    }
 
 }

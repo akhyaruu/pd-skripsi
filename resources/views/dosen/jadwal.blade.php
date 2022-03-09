@@ -20,6 +20,17 @@
    </div>
 
 
+   @if($errors->any())
+   <div class="alert alert-danger" role="alert">
+      @foreach ($errors->all() as $error)
+      <li>{{ $error }}</li>
+      @endforeach
+   </div>
+   @elseif (session('success'))
+   <div class="alert alert-success" role="alert">
+      {{ session('success') }}
+   </div>
+   @endif
    <!-- Modal -->
    <div class="modal fade" id="mainModal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog">
