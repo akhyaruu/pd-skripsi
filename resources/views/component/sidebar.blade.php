@@ -30,7 +30,7 @@
 <!-- dosen -->
 @if (Auth::user()->role_id == 2)
 <li class="sidebar-item">
-   <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('bimbingan') }}" aria-expanded="false">
+   <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('m-bimbingan') }}" aria-expanded="false">
       <i class="fas fa-calendar-check" aria-hidden="true"></i>
       <span class="hide-menu">Bimbingan</span>
    </a>

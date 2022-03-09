@@ -31,7 +31,7 @@
          <div class="white-box analytics-info">
             <h3 class="box-title">Tanggal Pengajuan</h3>
             @if ($proposal)
-            <p class="">{{ date("d-m-Y", strtotime($proposal->created_at)) }}</p>
+            <p>{{ date("d-m-Y", strtotime($proposal->created_at)) }}</p>
             @else
             <p class="text-danger fw-bold">belum mengajukan judul</p>
             @endif
