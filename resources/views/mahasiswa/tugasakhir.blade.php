@@ -155,8 +155,9 @@
                      <!-- apabila sudah di acc judulnya -->
 
                      <button type="button" class="btn btn-danger text-light bClear"><i class="fas fa-eraser"></i>
-                        Clear</button>
-                     <button type="submit" class="btn btn-primary bSubmit"><i class="fas fa-upload"></i> Submit</button>
+                        &nbsp; Clear</button>
+                     <button type="submit" class="btn btn-primary bSubmit"><i class="fas fa-upload"></i>&nbsp;
+                        Submit</button>
                   </form>
                </div>
             </div>

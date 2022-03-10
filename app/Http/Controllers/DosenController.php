@@ -72,15 +72,16 @@ class DosenController extends Controller
             ->where('proposal.id', '=', $id)
             ->first();
 
-         $bimbingan = Jadwal::join('bimbingan', 'jadwal.bimbingan_id', '=', 'bimbingan.id')
+         $jadwal = Jadwal::join('bimbingan', 'jadwal.bimbingan_id', '=', 'bimbingan.id')
             ->join('proposal', 'proposal.bimbingan_id', '=', 'bimbingan.id')   
             ->select('jadwal.*')
             ->where('proposal.id', '=', $id)
             ->orderBy('jadwal.created_at', 'desc')
             ->get();
 
+         $jumlahBimbingan = count($jadwal);
 
-         return view('dosen.jadwal', compact('proposal', 'bimbingan'));
+         return view('dosen.jadwal', compact('proposal', 'jadwal', 'jumlahBimbingan'));
       }
      
    }
@@ -121,6 +122,17 @@ class DosenController extends Controller
 
       $jadwal = Jadwal::create($validate);
       return back()->with('success',  'Jadwal baru berhasil dibuat');
+   }
+
+   public function bimbinganJadwalUpdate(Request $request)
+   {
+      $validate = $request->validate([
+         'tanggal_mulai'      => 'required',
+         'tanggal_selesai'    => 'required',
+      ]);
+      $tugasAkhir = TugasAkhir::findOrFail($request->id);
+      $tugasAkhir->update($validate);
+      return back()->with('success',  'Jadwal bimbingan berhasil diubah');
    }
 
 }

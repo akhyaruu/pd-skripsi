@@ -8,7 +8,7 @@
 <div class="container-fluid">
    <div class="row justify-content-center">
 
-      @if (!isset($bimbingan))
+      @if (!isset($jadwal))
       <div class="card align-middle">
          <div class="card-body">
             Mahasiswa belum ada jadwal bimbingan
@@ -22,9 +22,9 @@
       <script>
       let bimbinganId = '';
       </script>
-      @if (isset($bimbingan))
+      @if (isset($jadwal))
 
-      @foreach ($bimbingan as $item)
+      @foreach ($jadwal as $item)
       <script>
       bimbinganId = "{{ $item->bimbingan_id }}";
       </script>
@@ -37,34 +37,47 @@
                   class=" fas fa-calendar-plus"></i> &nbsp; Jadwal Baru</button>
          </div>
 
-         @if($errors->any())
-         <div class="alert alert-danger" role="alert">
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
+         <div>
+            @if($errors->any())
+            <div class="alert alert-danger" role="alert">
+               @foreach ($errors->all() as $error)
+               <li>{{ $error }}</li>
+               @endforeach
+            </div>
+            @elseif (session('success'))
+            <div class="alert alert-success" role="alert">
+               {{ session('success') }}
+            </div>
+            @endif
          </div>
-         @elseif (session('success'))
-         <div class="alert alert-success" role="alert">
-            {{ session('success') }}
-         </div>
-         @endif
 
-         <div class="col-lg-4 col-md-4 overflow-auto" style="max-height: 420px;">
+         <div class="col-lg-4 col-md-4 overflow-auto" style="max-height: 400px;">
             <div class="list-group">
-               @foreach ($bimbingan->reverse() as $item)
+               <script>
+               var jadwal = [];
+               </script>
+               @foreach ($jadwal as $item)
+               <script>
+               var jadwalObject = {};
+               jadwalObject.id = '{{ $item->id }}';
+               jadwal.push(jadwalObject);
+               </script>
                @if ($loop->first)
-               <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+               <a href="#" class="list-group-item list-group-item-action active bJadwal" idJadwal="{{ $item->id }}"
+                  aria-current="true" data-bs-toggle="modal" data-bs-target="#modalJadwal">
                   <div class="d-flex w-100 justify-content-between">
-                     <h5 class="mb-1">Bimbingan ke {{ $loop->iteration }}</h5>
-                     <small>{{ $item->tgl_bimbingan }}</small>
+                     <h5 class="mb-1">Bimbingan baru <small>(ke-{{ $jumlahBimbingan }})</small></h5>
+                     <small>{{ date("d-m-Y", strtotime($item->tgl_bimbingan)) }}</small>
                   </div>
                   <p class="mb-1">{{ $item->judul }}</p>
                </a>
+               <hr>
                @else
-               <a href="#" class="list-group-item list-group-item-action" aria-current="true">
+               <a href="#" class="list-group-item list-group-item-action bJadwal" idJadwal="{{ $item->id }}"
+                  aria-current="true" data-bs-toggle="modal" data-bs-target="#modalJadwal">
                   <div class="d-flex w-100 justify-content-between">
-                     <h5 class="mb-1">Bimbingan ke {{ $loop->iteration }}</h5>
-                     <small>{{ $item->tgl_bimbingan }}</small>
+                     <h5 class="mb-1">Bimbingan sebelumnya </h5>
+                     <small>{{ date("d-m-Y", strtotime($item->tgl_bimbingan)) }}</small>
                   </div>
                   <p class="mb-1">{{ $item->judul }}</p>
                </a>
@@ -111,7 +124,7 @@
 
 
 
-   <!-- Modal -->
+   <!-- Main Modal -->
    <div class="modal fade" id="mainModal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog">
          <div class="modal-content">
@@ -139,7 +152,6 @@
                      <textarea name="catatan" class="form-control"
                         placeholder="Catatan tambahan seperti link zoom atau lainnya" id="abstrakForm"
                         style="height: 120px" required></textarea>
-
                   </div>
                </div>
                <div class="modal-footer">
@@ -154,6 +166,61 @@
       </div>
    </div>
 
+   <!-- Modal Detail Jadwal -->
+   <div class="modal fade" id="modalJadwal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title fw-bold" id="exampleModalLabel">Detail Jadwal Bimbingan</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="" method="POST">
+               <div class="modal-body">
+                  <div class="mb-3">
+                     <label for="input-date" class="form-label">Tanggal Bimbingan</label>
+                     <input type="date" name="tgl_bimbingan" class="form-control" id="input-date"
+                        aria-describedby="emailHelp" required>
+                  </div>
+                  <div class="mb-3">
+                     <label for="input-judul" class="form-label">Judul</label>
+                     <input type="text" name="judul" class="form-control" id="input-judul" required>
+                  </div>
+                  <div class="mb-3">
+                     <label for="input-catatan" class="form-label">Catatan</label>
+                     <textarea name="catatan" class="form-control"
+                        placeholder="Catatan tambahan seperti link zoom atau lainnya" id="abstrakForm"
+                        style="height: 120px" required></textarea>
+                  </div>
+                  <div class="mb-3">
+                     <label for="input-judul" class="form-label">Judul</label>
+                     <textarea name="catatan" class="form-control"
+                        placeholder="Catatan tambahan seperti link zoom atau lainnya" id="abstrakForm"
+                        style="height: 120px" required></textarea>
+                  </div>
+               </div>
+               <div class="m-3">
+                  <button type="submit" class="btn btn-warning"><i class="fas fa-upload"></i>&nbsp;
+                     Submit</button>
+                  <div style="float: right;">
+                     <button type="button" class="btn btn-info text-white bRevisi"><i
+                           class="fas fa-clipboard-list"></i>&nbsp; Tambah Revisi</button>
+                     <form id="formJadwalSelesai" action="{{ route('m-bimbingan.jadwal.update') }}" class="pull-left"
+                        method="POST">
+                        @csrf
+                        <input id="input-id-jadwal" type="hidden" name="id" value="">
+                        <button type="button" onclick="return confirm('tandai jadwal bimbingan sudah selesai?')"
+                           class="btn btn-primary bSelesai"><i class="fas fa-check text-white"></i>&nbsp;
+                           Selesai</button>
+                     </form>
+                  </div>
+
+
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+
 
 </div>
 @endsection
@@ -161,6 +228,8 @@
 @section('script')
 <script>
 $(document).ready(function() {
+
+   let idJadwal = '';
 
    $(".bClear").click(function() {
       $('#formBimbingan :input').val('');
@@ -173,8 +242,26 @@ $(document).ready(function() {
 
    $(".bBuatJadwal").click(function() {
       $("#formBimbingan").attr("action", "{{ route('m-bimbingan.jadwal.create') }}");
+   });
+
+   $(".bJadwal").click(function() {
+      $("#formBimbingan").attr("action", "{{ route('m-bimbingan.jadwal.create') }}");
+
+
+      idJadwal = $(this).attr('idJadwal');
+      jadwal.forEach(element => {
+         if (element.id == idJadwal) {
+            $("#input-id-jadwal").val(element.id);
+         }
+      });
 
    });
+
+   $(".bSelesai").click(function() {
+      $('#formJadwalSelesai').submit();
+   });
+
+   $(".bRevisi").click(function() {});
 
 
 });
