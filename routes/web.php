@@ -65,6 +65,7 @@ Route::prefix('/dosen')->middleware(['auth', 'dosen'])->group(function () {
    Route::post('/m-bimbingan/jadwal/create', [App\Http\Controllers\DosenController::class, 'bimbinganJadwalCreate'])->name('m-bimbingan.jadwal.create');
    Route::post('/m-bimbingan/jadwal/create/new', [App\Http\Controllers\DosenController::class, 'bimbinganJadwalCreateNew'])->name('m-bimbingan.jadwal.create.new');
    Route::post('/m-bimbingan/jadwal/update', [App\Http\Controllers\DosenController::class, 'bimbinganJadwalUpdate'])->name('m-bimbingan.jadwal.update');
+   Route::post('/m-bimbingan/jadwal/update/selesai', [App\Http\Controllers\DosenController::class, 'bimbinganJadwalUpdateSelesai'])->name('m-bimbingan.jadwal.update.selesai');
 });
 
 Route::prefix('/mahasiswa')->middleware(['auth', 'mahasiswa'])->group(function () {

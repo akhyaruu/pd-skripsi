@@ -62,31 +62,57 @@
                jadwalObject.id = '{{ $item->id }}';
                jadwal.push(jadwalObject);
                </script>
+               <!-- batas 3 -->
                @if ($loop->first)
-               <a href="#" class="list-group-item list-group-item-action active bJadwal" idJadwal="{{ $item->id }}"
-                  aria-current="true" data-bs-toggle="modal" data-bs-target="#modalJadwal">
+               <a href="#" class="list-group-item list-group-item-action active bJadwal" aria-current="true"
+                  data-bs-toggle="modal" data-bs-target="#modalJadwal">
                   <div class="d-flex w-100 justify-content-between">
                      <h5 class="mb-1">Bimbingan baru <small>(ke-{{ $jumlahBimbingan }})</small></h5>
                      <small>{{ date("d-m-Y", strtotime($item->tgl_bimbingan)) }}</small>
                   </div>
                   <p class="mb-1">{{ $item->judul }}</p>
                </a>
+               <!-- batas 1 -->
+               @if ($item->status == 'selesai')
+               <button class="btn btn-secondary text-white" disabled>&nbsp; Telah Selesai</button>
+               @else
+               <button class="btn btn-primary bSelesai" idJadwal="{{ $item->id }}">
+                  <i class="fas fa-check text-white"></i>&nbsp; Selesai</button>
+               @endif
+               <!-- batas 1 -->
                <hr>
                @else
-               <a href="#" class="list-group-item list-group-item-action bJadwal" idJadwal="{{ $item->id }}"
-                  aria-current="true" data-bs-toggle="modal" data-bs-target="#modalJadwal">
+               <a href="#" class="list-group-item list-group-item-action bJadwal" aria-current="true"
+                  data-bs-toggle="modal" data-bs-target="#modalJadwal">
                   <div class="d-flex w-100 justify-content-between">
                      <h5 class="mb-1">Bimbingan sebelumnya </h5>
                      <small>{{ date("d-m-Y", strtotime($item->tgl_bimbingan)) }}</small>
                   </div>
                   <p class="mb-1">{{ $item->judul }}</p>
                </a>
+               <!-- batas 2 -->
+               @if ($item->status == 'selesai')
+               <button class="btn btn-secondary mb-3 text-white" disabled>&nbsp; Telah Selesai</button>
+               @else
+               <button class="btn btn-primary bSelesai mb-3" idJadwal="{{ $item->id }}">
+                  <i class="fas fa-check text-white"></i>&nbsp; Selesai</button>
                @endif
+               <!-- batas 2 -->
+               @endif
+               <!-- batas 3 -->
                @endforeach
 
             </div>
-
          </div>
+
+         <form id="formJadwalSelesai" action="{{ route('m-bimbingan.jadwal.update.selesai') }}" class="pull-left"
+            method="POST" hidden>
+            @csrf
+            <input id="input-id-jadwal" type="hidden" name="id" value="">
+            <!-- <button type="button" class="btn btn-primary bSelesai"><i class="fas fa-check text-white"></i>&nbsp;
+               Selesai</button> -->
+         </form>
+
 
          <div class="col-lg-8 col-md-8">
 
@@ -150,8 +176,8 @@
                   <div class="mb-3">
                      <label for="input-catatan" class="form-label">Catatan</label>
                      <textarea name="catatan" class="form-control"
-                        placeholder="Catatan tambahan seperti link zoom atau lainnya" id="abstrakForm"
-                        style="height: 120px" required></textarea>
+                        placeholder="Catatan tambahan seperti link zoom atau lainnya" style="height: 120px"
+                        required></textarea>
                   </div>
                </div>
                <div class="modal-footer">
@@ -174,47 +200,34 @@
                <h5 class="modal-title fw-bold" id="exampleModalLabel">Detail Jadwal Bimbingan</h5>
                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="" method="POST">
+            <form id="formEditJadwal" action="{{ route('m-bimbingan.jadwal.update') }}" method="POST">
                <div class="modal-body">
                   <div class="mb-3">
-                     <label for="input-date" class="form-label">Tanggal Bimbingan</label>
-                     <input type="date" name="tgl_bimbingan" class="form-control" id="input-date"
+                     <label for="input-date-edit" class="form-label">Tanggal Bimbingan</label>
+                     <input type="date" name="tgl_bimbingan" class="form-control" id="input-date-edit"
                         aria-describedby="emailHelp" required>
                   </div>
                   <div class="mb-3">
-                     <label for="input-judul" class="form-label">Judul</label>
-                     <input type="text" name="judul" class="form-control" id="input-judul" required>
+                     <label for="input-judul-edit" class="form-label">Judul</label>
+                     <input type="text" name="judul" class="form-control" id="input-judul-edit" required>
                   </div>
                   <div class="mb-3">
-                     <label for="input-catatan" class="form-label">Catatan</label>
-                     <textarea name="catatan" class="form-control"
-                        placeholder="Catatan tambahan seperti link zoom atau lainnya" id="abstrakForm"
-                        style="height: 120px" required></textarea>
+                     <label for="input-catatan-edit" class="form-label">Catatan</label>
+                     <textarea id="input-catatan-edit" name="catatan" class="form-control"
+                        placeholder="Catatan tambahan seperti link zoom atau lainnya" style="height: 120px"
+                        required></textarea>
                   </div>
-                  <div class="mb-3">
-                     <label for="input-judul" class="form-label">Judul</label>
-                     <textarea name="catatan" class="form-control"
-                        placeholder="Catatan tambahan seperti link zoom atau lainnya" id="abstrakForm"
+                  <!-- <div class="mb-3">
+                     <label for="input-revi" class="form-label">Revisi</label>
+                     <textarea name="revisi" class="form-control" placeholder="Catatan revisi untuk mahasiswa"
                         style="height: 120px" required></textarea>
-                  </div>
+                  </div> -->
                </div>
-               <div class="m-3">
-                  <button type="submit" class="btn btn-warning"><i class="fas fa-upload"></i>&nbsp;
-                     Submit</button>
-                  <div style="float: right;">
-                     <button type="button" class="btn btn-info text-white bRevisi"><i
-                           class="fas fa-clipboard-list"></i>&nbsp; Tambah Revisi</button>
-                     <form id="formJadwalSelesai" action="{{ route('m-bimbingan.jadwal.update') }}" class="pull-left"
-                        method="POST">
-                        @csrf
-                        <input id="input-id-jadwal" type="hidden" name="id" value="">
-                        <button type="button" onclick="return confirm('tandai jadwal bimbingan sudah selesai?')"
-                           class="btn btn-primary bSelesai"><i class="fas fa-check text-white"></i>&nbsp;
-                           Selesai</button>
-                     </form>
-                  </div>
-
-
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-info text-white bRevisi"><i
+                        class="fas fa-clipboard-list"></i>&nbsp; Tambah Revisi</button>
+                  <button type="submit" class="btn btn-warning btn-block"><i class="fas fa-upload">
+                     </i>&nbsp;Submit</button>
                </div>
             </form>
          </div>
@@ -248,6 +261,11 @@ $(document).ready(function() {
       $("#formBimbingan").attr("action", "{{ route('m-bimbingan.jadwal.create') }}");
 
 
+
+
+   });
+
+   $(".bSelesai").click(function() {
       idJadwal = $(this).attr('idJadwal');
       jadwal.forEach(element => {
          if (element.id == idJadwal) {
@@ -255,9 +273,6 @@ $(document).ready(function() {
          }
       });
 
-   });
-
-   $(".bSelesai").click(function() {
       $('#formJadwalSelesai').submit();
    });
 
