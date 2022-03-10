@@ -126,7 +126,15 @@ class DosenController extends Controller
 
    public function bimbinganJadwalUpdate(Request $request)
    {
-
+      $validate = $request->validate([
+         'id'              => 'required',
+         'tgl_bimbingan'   => 'required',
+         'judul'           => 'required',
+         'catatan'         => 'required',
+      ]);
+      $jadwal = Jadwal::findOrFail($request->id);
+      $jadwal->update($validate);
+      return back()->with('success',  'Jadwal bimbingan berhasil diubah');
    }
 
    public function bimbinganJadwalUpdateSelesai(Request $request)

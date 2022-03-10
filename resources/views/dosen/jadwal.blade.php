@@ -60,12 +60,15 @@
                <script>
                var jadwalObject = {};
                jadwalObject.id = '{{ $item->id }}';
+               jadwalObject.date = '{{ $item->tgl_bimbingan }}';
+               jadwalObject.judul = '{{ $item->judul }}';
+               jadwalObject.catatan = '{{ $item->catatan }}';
                jadwal.push(jadwalObject);
                </script>
                <!-- batas 3 -->
                @if ($loop->first)
                <a href="#" class="list-group-item list-group-item-action active bJadwal" aria-current="true"
-                  data-bs-toggle="modal" data-bs-target="#modalJadwal">
+                  data-bs-toggle="modal" data-bs-target="#modalJadwal" jadwalId="{{ $item->id }}">
                   <div class="d-flex w-100 justify-content-between">
                      <h5 class="mb-1">Bimbingan baru <small>(ke-{{ $jumlahBimbingan }})</small></h5>
                      <small>{{ date("d-m-Y", strtotime($item->tgl_bimbingan)) }}</small>
@@ -83,7 +86,7 @@
                <hr>
                @else
                <a href="#" class="list-group-item list-group-item-action bJadwal" aria-current="true"
-                  data-bs-toggle="modal" data-bs-target="#modalJadwal">
+                  data-bs-toggle="modal" data-bs-target="#modalJadwal" jadwalId="{{ $item->id }}">
                   <div class="d-flex w-100 justify-content-between">
                      <h5 class="mb-1">Bimbingan sebelumnya </h5>
                      <small>{{ date("d-m-Y", strtotime($item->tgl_bimbingan)) }}</small>
@@ -176,7 +179,7 @@
                   <div class="mb-3">
                      <label for="input-catatan" class="form-label">Catatan</label>
                      <textarea name="catatan" class="form-control"
-                        placeholder="Catatan tambahan seperti link zoom atau lainnya" style="height: 120px"
+                        placeholder="Catatan tambahan seperti link zoom atau lainnya" style="height: 80px"
                         required></textarea>
                   </div>
                </div>
@@ -201,6 +204,8 @@
                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="formEditJadwal" action="{{ route('m-bimbingan.jadwal.update') }}" method="POST">
+               @csrf
+               <input id="input-jadwal" type="text" name="id" value="" hidden>
                <div class="modal-body">
                   <div class="mb-3">
                      <label for="input-date-edit" class="form-label">Tanggal Bimbingan</label>
@@ -214,7 +219,7 @@
                   <div class="mb-3">
                      <label for="input-catatan-edit" class="form-label">Catatan</label>
                      <textarea id="input-catatan-edit" name="catatan" class="form-control"
-                        placeholder="Catatan tambahan seperti link zoom atau lainnya" style="height: 120px"
+                        placeholder="Catatan tambahan seperti link zoom atau lainnya" style="height: 80px"
                         required></textarea>
                   </div>
                   <!-- <div class="mb-3">
@@ -243,6 +248,7 @@
 $(document).ready(function() {
 
    let idJadwal = '';
+   let jadwalId = '';
 
    $(".bClear").click(function() {
       $('#formBimbingan :input').val('');
@@ -258,8 +264,16 @@ $(document).ready(function() {
    });
 
    $(".bJadwal").click(function() {
-      $("#formBimbingan").attr("action", "{{ route('m-bimbingan.jadwal.create') }}");
 
+      jadwalId = $(this).attr('jadwalId');
+      jadwal.forEach(element => {
+         if (element.id == jadwalId) {
+            $("#input-jadwal").val(element.id);
+            $('#input-date-edit').val(element.date);
+            $('#input-judul-edit').val(element.judul);
+            $('#input-catatan-edit').val(element.catatan);
+         }
+      });
 
 
 
