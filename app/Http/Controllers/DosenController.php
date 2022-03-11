@@ -133,8 +133,13 @@ class DosenController extends Controller
          'catatan'         => 'required',
       ]);
       $jadwal = Jadwal::findOrFail($request->id);
+      if ($request->revisi) {
+         $validate['revisi'] = $request->revisi;
+      } else {
+         $validate['revisi'] = null;
+      }
       $jadwal->update($validate);
-      return back()->with('success',  'Jadwal bimbingan berhasil diubah');
+      return back()->with('success',  'Jadwal bimbingan berhasil diperbarui');
    }
 
    public function bimbinganJadwalUpdateSelesai(Request $request)

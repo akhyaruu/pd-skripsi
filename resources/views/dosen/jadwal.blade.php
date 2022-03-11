@@ -30,11 +30,34 @@
       </script>
       @endforeach
 
+
+      <?php $countStatus = 0; ?>
+      @foreach ($jadwal as $item)
+      @if ($item->status == 'selesai')
+      <?php $countStatus++; ?>
+      @endif
+      @endforeach
+
       <div class="row">
          <div class="mb-3">
             <h4>Jadwal Bimbingan</h4>
             <button class="btn btn-primary bJadwalBaru" data-bs-toggle="modal" data-bs-target="#mainModal"><i
                   class=" fas fa-calendar-plus"></i> &nbsp; Jadwal Baru</button>
+            <div style="float: right;">
+               @if ($countStatus >= 3)
+               <button class="btn btn-info text-white"><i class="fas fa-check"></i> &nbsp; Seminar Proposal</button>
+               @else
+               <button class="btn btn-secondary text-white" disabled><i class="fas fa-check"></i> &nbsp; Seminar
+                  Proposal</button>
+               @endif
+
+               @if ($countStatus >= 6)
+               <button class="btn btn-info text-white"><i class="fas fa-check"></i> &nbsp; Sidang Proposal</button>
+               @else
+               <button class="btn btn-secondary text-white" disabled><i class="fas fa-check"></i> &nbsp; Sidang
+                  Proposal</button>
+               @endif
+            </div>
          </div>
 
          <div>
@@ -63,6 +86,7 @@
                jadwalObject.date = '{{ $item->tgl_bimbingan }}';
                jadwalObject.judul = '{{ $item->judul }}';
                jadwalObject.catatan = '{{ $item->catatan }}';
+               jadwalObject.revisi = '{{ $item->revisi }}';
                jadwal.push(jadwalObject);
                </script>
                <!-- batas 3 -->
@@ -112,8 +136,6 @@
             method="POST" hidden>
             @csrf
             <input id="input-id-jadwal" type="hidden" name="id" value="">
-            <!-- <button type="button" class="btn btn-primary bSelesai"><i class="fas fa-check text-white"></i>&nbsp;
-               Selesai</button> -->
          </form>
 
 
@@ -179,7 +201,7 @@
                   <div class="mb-3">
                      <label for="input-catatan" class="form-label">Catatan</label>
                      <textarea name="catatan" class="form-control"
-                        placeholder="Catatan tambahan seperti link zoom atau lainnya" style="height: 80px"
+                        placeholder="Catatan tambahan seperti link zoom atau lainnya" style="height: 70px"
                         required></textarea>
                   </div>
                </div>
@@ -219,14 +241,14 @@
                   <div class="mb-3">
                      <label for="input-catatan-edit" class="form-label">Catatan</label>
                      <textarea id="input-catatan-edit" name="catatan" class="form-control"
-                        placeholder="Catatan tambahan seperti link zoom atau lainnya" style="height: 80px"
+                        placeholder="Catatan tambahan seperti link zoom atau lainnya" style="height: 70px"
                         required></textarea>
                   </div>
-                  <!-- <div class="mb-3">
-                     <label for="input-revi" class="form-label">Revisi</label>
-                     <textarea name="revisi" class="form-control" placeholder="Catatan revisi untuk mahasiswa"
-                        style="height: 120px" required></textarea>
-                  </div> -->
+                  <div class="mb-3 divRevisi" hidden>
+                     <label for="input-revisi" class="form-label">Revisi</label>
+                     <textarea id="input-revisi" name="revisi" class="form-control"
+                        placeholder="Catatan revisi untuk mahasiswa" style="height: 120px"></textarea>
+                  </div>
                </div>
                <div class="modal-footer">
                   <button type="button" class="btn btn-info text-white bRevisi"><i
@@ -272,26 +294,44 @@ $(document).ready(function() {
             $('#input-date-edit').val(element.date);
             $('#input-judul-edit').val(element.judul);
             $('#input-catatan-edit').val(element.catatan);
+
+            if (element.revisi) {
+               $('.divRevisi').prop("hidden", false);
+               $("#input-revisi").val(element.revisi);
+            } else {
+               $('.divRevisi').prop("hidden", true);
+
+            }
          }
       });
-
 
 
    });
 
    $(".bSelesai").click(function() {
-      idJadwal = $(this).attr('idJadwal');
-      jadwal.forEach(element => {
-         if (element.id == idJadwal) {
-            $("#input-id-jadwal").val(element.id);
-         }
-      });
-
-      $('#formJadwalSelesai').submit();
+      const result = confirm("Apakah kamu yakin ingin mengubah jadwal menjadi selesai?");
+      if (result) {
+         idJadwal = $(this).attr('idJadwal');
+         jadwal.forEach(element => {
+            if (element.id == idJadwal) {
+               $("#input-id-jadwal").val(element.id);
+            }
+         });
+         $('#formJadwalSelesai').submit();
+      }
    });
 
-   $(".bRevisi").click(function() {});
+   $(".bRevisi").click(function() {
+      $(".divRevisi").prop("hidden", false);
 
+   });
+
+
+   const modalJadwal = document.getElementById('modalJadwal')
+   modalJadwal.addEventListener('hidden.bs.modal', function(event) {
+      $("#input-revisi").val('');
+
+   })
 
 });
 </script>

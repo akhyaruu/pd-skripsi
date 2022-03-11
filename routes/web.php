@@ -18,6 +18,7 @@ Route::get('/', function () {
    // echo Form::select('size', ['L' => 'Large', 'S' => 'Small'], 'S');
    // $data = User::all();
    // return view('coba', compact('data'));
+   return redirect('/login');
 });
 
 
