@@ -20,7 +20,11 @@ class DosenController extends Controller
          ->where('tugas_akhir.dosen_id', '=', Auth::user()->id)
          ->get();
 
-      return view('dosen.bimbingan', compact('proposal'));
+      $jumlahBimbingan = TugasAkhir::where('dosen_id', '=', Auth::user()->id)->count();
+      $jumlahBimbinganBaru = Proposal::where('bimbingan_id', '=', null)->count();
+      
+
+      return view('dosen.bimbingan', compact('proposal', 'jumlahBimbingan', 'jumlahBimbinganBaru'));
    }
 
    public function bimbinganUpdate(Request $request) 
@@ -60,7 +64,8 @@ class DosenController extends Controller
       
       if ($cekProposal->bimbingan_id == null) {
          $proposal = Proposal::join('users', 'proposal.mahasiswa_id', '=', 'users.id')
-            ->select('proposal.*', 'users.name as mahasiswa')
+            ->join('tugas_akhir', 'proposal.tugas_akhir_id', '=', 'tugas_akhir.id')
+            ->select('proposal.*', 'users.name as mahasiswa', 'tugas_akhir.tgl_seminar', 'tugas_akhir.tgl_sidang')
             ->where('proposal.id', '=', $id)
             ->first();
          
@@ -68,7 +73,8 @@ class DosenController extends Controller
          
       } else {
          $proposal = Proposal::join('users', 'proposal.mahasiswa_id', '=', 'users.id')
-            ->select('proposal.*', 'users.name as mahasiswa')
+            ->join('tugas_akhir', 'proposal.tugas_akhir_id', '=', 'tugas_akhir.id')
+            ->select('proposal.*', 'users.name as mahasiswa', 'tugas_akhir.tgl_seminar', 'tugas_akhir.tgl_sidang')
             ->where('proposal.id', '=', $id)
             ->first();
 
@@ -102,7 +108,7 @@ class DosenController extends Controller
       ]);
 
       $vjadwal['bimbingan_id'] = $bimbingan->id;
-      $bimbingan = Jadwal::create($vjadwal);
+      $jadwal = Jadwal::create($vjadwal);
 
       $proposal = Proposal::findOrFail($request->proposal_id);
       $proposal->bimbingan_id = $bimbingan->id;
@@ -152,5 +158,29 @@ class DosenController extends Controller
       $jadwal->save();
       return back()->with('success',  'Jadwal bimbingan berhasil diubah menjadi selesai');
    }
+
+   public function bimbinganJadwalUpdateSeminar(Request $request)
+   {
+      $validate = $request->validate([
+         'id'           => 'required',
+         'tgl_seminar'  => 'required|date',
+      ]);
+      $jadwal = Proposal::join('tugas_akhir', 'tugas_akhir.id', '=', 'proposal.tugas_akhir_id')->select('tugas_akhir.*', 'proposal.tugas_akhir_id')
+      ->where('proposal.id', '=', $request->id)->update(['tugas_akhir.tgl_seminar' => $request->tgl_seminar, 'tugas_akhir.seminar' => 'selesai']);
+      return back()->with('success',  'Status seminar proposal berhasil diubah menjadi selesai');
+   }
+   
+   public function bimbinganJadwalUpdateSidang(Request $request)
+   {
+      $validate = $request->validate([
+         'id'           => 'required',
+         'tgl_sidang'  => 'required|date',
+      ]);
+      $jadwal = Proposal::join('tugas_akhir', 'tugas_akhir.id', '=', 'proposal.tugas_akhir_id')->select('tugas_akhir.*', 'proposal.tugas_akhir_id')
+      ->where('proposal.id', '=', $request->id)->update(['tugas_akhir.tgl_sidang' => $request->tgl_sidang, 'tugas_akhir.sidang' => 'selesai']);
+      return back()->with('success',  'Status sidang proposal berhasil diubah menjadi selesai');
+   }
+   
+
 
 }

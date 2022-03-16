@@ -7,28 +7,20 @@
 @section('content')
 <div class="container-fluid">
    <div class="row justify-content-center">
-      <div class="col-lg-4 col-md-4">
+      <div class="col-lg-6 col-md-6">
          <div class="white-box analytics-info">
-            <h3 class="box-title">Jumlah Mahasiswa</h3>
-            <p class="text-success fw-bold">15 orang</p>
+            <h3 class="box-title">Jumlah Bimbingan</h3>
+            <p class="text-success fw-bold">{{ $jumlahBimbingan }} Mahasiswa</p>
             <!-- <p class="text-danger">belum ada jadwal</p> -->
          </div>
       </div>
-      <div class="col-lg-4 col-md-4">
-         <div class="white-box analytics-info">
-            <h3 class="box-title">Bimbingan Selanjutnya</h3>
-            <p class="text-success fw-bold">15 orang</p>
-            <!-- <p class="text-danger">belum ada jadwal</p> -->
-            <small class="text-info" style="float: right;">cek jadwal <i class="fas fa-arrow-right"></i></small>
-
-         </div>
-      </div>
-      <div class="col-lg-4 col-md-4">
+      <div class="col-lg-6 col-md-6">
          <div class="white-box analytics-info">
             <h3 class="box-title">Bimbingan Baru</h3>
-            <p class="text-success fw-bold">15 orang</p>
+            <p class="text-success fw-bold">{{ $jumlahBimbinganBaru }} Mahasiswa</p>
             <!-- <p class="text-danger">belum ada jadwal</p> -->
-            <small class="text-info" style="float: right;">cek jadwal <i class="fas fa-arrow-right"></i></small>
+            <small class="text-info" style="float: right;" data-bs-toggle="modal" data-bs-target="#mhsModal">cek
+               mahasiswa <i class="fas fa-arrow-right"></i></small>
          </div>
       </div>
    </div>
@@ -99,7 +91,7 @@
    </div>
 
 
-   <!-- Modal -->
+   <!-- Edit Modal -->
    <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog">
          <div class="modal-content">
@@ -130,6 +122,33 @@
          </div>
       </div>
    </div>
+
+   <!-- Cek Mahasiswa Modal -->
+   <div class="modal fade" id="mhsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">List Mahasiswa</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <ul class="list-group">
+                  @foreach ($proposal as $item)
+                  @if (!isset($item->bimbingan_id))
+                  <li class="list-group-item">{{ $item->mahasiswa }}</li>
+                  @else
+                  @break
+                  @endif
+                  @endforeach
+               </ul>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+         </div>
+      </div>
+   </div>
+
 </div>
 @endsection
 
@@ -149,6 +168,12 @@ $(document).ready(function() {
             $("#input-judul").val(element.judul);
          }
       });
+   });
+
+   $('textarea').keypress(function(event) {
+      if (event.keyCode == 13) {
+         event.preventDefault();
+      }
    });
 
 

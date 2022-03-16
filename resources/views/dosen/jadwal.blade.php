@@ -44,19 +44,39 @@
             <button class="btn btn-primary bJadwalBaru" data-bs-toggle="modal" data-bs-target="#mainModal"><i
                   class=" fas fa-calendar-plus"></i> &nbsp; Jadwal Baru</button>
             <div style="float: right;">
+               <!-- satu kesatuan 1 -->
                @if ($countStatus >= 3)
-               <button class="btn btn-info text-white"><i class="fas fa-check"></i> &nbsp; Seminar Proposal</button>
+               @if (isset($proposal->tgl_seminar))
+               <button class="btn btn-secondary text-white" disabled>Sudah Seminar</button>
+               @else
+               <button class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#modalSeminar"><i
+                     class="fas fa-check"></i> &nbsp; Seminar Proposal</button>
+               @endif
                @else
                <button class="btn btn-secondary text-white" disabled><i class="fas fa-check"></i> &nbsp; Seminar
                   Proposal</button>
                @endif
+               <!-- satu kesatuan 1 -->
 
+               <!-- satu kesatuan 2 -->
                @if ($countStatus >= 6)
-               <button class="btn btn-info text-white"><i class="fas fa-check"></i> &nbsp; Sidang Proposal</button>
+               @if (isset($proposal->tgl_sidang))
+               <script>
+               let statusSidang = 'selesai';
+               </script>
+               <button class="btn btn-secondary text-white" disabled>Sudah Sidang</button>
+               @else
+               @if (isset($proposal->tgl_seminar))
+               <button class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#modalSidang"><i
+                     class="fas fa-check"></i> &nbsp; Sidang Proposal</button>
                @else
                <button class="btn btn-secondary text-white" disabled><i class="fas fa-check"></i> &nbsp; Sidang
                   Proposal</button>
                @endif
+               @endif
+
+               @endif
+               <!-- satu kesatuan 2 -->
             </div>
          </div>
 
@@ -191,8 +211,7 @@
                <div class="modal-body">
                   <div class="mb-3">
                      <label for="input-date" class="form-label">Tanggal Bimbingan</label>
-                     <input type="date" name="tgl_bimbingan" class="form-control" id="input-date"
-                        aria-describedby="emailHelp" required>
+                     <input type="date" name="tgl_bimbingan" class="form-control" id="input-date" required>
                   </div>
                   <div class="mb-3">
                      <label for="input-judul" class="form-label">Judul</label>
@@ -231,8 +250,7 @@
                <div class="modal-body">
                   <div class="mb-3">
                      <label for="input-date-edit" class="form-label">Tanggal Bimbingan</label>
-                     <input type="date" name="tgl_bimbingan" class="form-control" id="input-date-edit"
-                        aria-describedby="emailHelp" required>
+                     <input type="date" name="tgl_bimbingan" class="form-control" id="input-date-edit" required>
                   </div>
                   <div class="mb-3">
                      <label for="input-judul-edit" class="form-label">Judul</label>
@@ -250,9 +268,56 @@
                         placeholder="Catatan revisi untuk mahasiswa" style="height: 120px"></textarea>
                   </div>
                </div>
-               <div class="modal-footer">
+               <div class="modal-footer footerModalDetail">
                   <button type="button" class="btn btn-info text-white bRevisi"><i
                         class="fas fa-clipboard-list"></i>&nbsp; Tambah Revisi</button>
+                  <button type="submit" class="btn btn-warning btn-block"><i class="fas fa-upload">
+                     </i>&nbsp;Submit</button>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+
+   <!-- Modal Seminar -->
+   <div class="modal fade" id="modalSeminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <form action="{{ route('m-bimbingan.jadwal.update.seminar') }}" method="POST">
+               @csrf
+               <input type="hidden" name="id" value="{{ $proposal->id }}">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Jadwal Seminar</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                  <input type="date" name="tgl_seminar" class="form-control" required>
+               </div>
+               <div class="modal-footer">
+                  <button type="submit" class="btn btn-warning btn-block"><i class="fas fa-upload">
+                     </i>&nbsp;Submit</button>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+
+
+   <!-- Modal Sidang -->
+   <div class="modal fade" id="modalSidang" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <form action="{{ route('m-bimbingan.jadwal.update.sidang') }}" method="POST">
+               @csrf
+               <input type="hidden" name="id" value="{{ $proposal->id }}">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Jadwal Sidang</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                  <input type="date" name="tgl_sidang" class="form-control" required>
+               </div>
+               <div class="modal-footer">
                   <button type="submit" class="btn btn-warning btn-block"><i class="fas fa-upload">
                      </i>&nbsp;Submit</button>
                </div>
@@ -286,7 +351,6 @@ $(document).ready(function() {
    });
 
    $(".bJadwal").click(function() {
-
       jadwalId = $(this).attr('jadwalId');
       jadwal.forEach(element => {
          if (element.id == jadwalId) {
@@ -331,7 +395,22 @@ $(document).ready(function() {
    modalJadwal.addEventListener('hidden.bs.modal', function(event) {
       $("#input-revisi").val('');
 
-   })
+   });
+
+   $('textarea').keypress(function(event) {
+      if (event.keyCode == 13) {
+         event.preventDefault();
+      }
+   });
+
+   if (statusSidang) {
+      $("#input-date-edit").prop("disabled", true);
+      $("#input-judul-edit").prop("disabled", true);
+      $("#input-catatan-edit").prop("disabled", true);
+      $(".bJadwalBaru").remove();
+      $(".footerModalDetail").remove();
+
+   }
 
 });
 </script>
