@@ -20,7 +20,7 @@
                <div class="col text-primary">
                   <div class="d-flex justify-content-center">
                      <button class="btn mx-2 btn-primary btn-rounded" id="btn-login">Login</button>
-                     <button class="btn mx-2 btn-outline-primary btn-rounded" id="btn-register">Register</button>
+                     <!-- <button class="btn mx-2 btn-outline-primary btn-rounded" id="btn-register">Register</button> -->
                   </div>
                   <div class="cards" id="login-card">
                      <div class="card-body">

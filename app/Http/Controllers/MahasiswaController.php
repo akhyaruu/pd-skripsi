@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bimbingan;
+use App\Models\Jadwal;
 use App\Models\Proposal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,19 +15,18 @@ class MahasiswaController extends Controller
    public function tugasAkhir()
    {
       $proposal = Proposal::where('mahasiswa_id', Auth::user()->id)->first();
-
+      $jadwal = null;
       $dosen = Proposal::join('tugas_akhir', 'proposal.tugas_akhir_id', '=', 'tugas_akhir.id')
          ->join('users', 'tugas_akhir.dosen_id', '=', 'users.id')
          ->select('proposal.*', 'users.name as nama_dosen')
          ->where('proposal.mahasiswa_id', '=', Auth::user()->id)
          ->first();
+      
+      if (isset($proposal->bimbingan_id)) {
+         $jadwal = Jadwal::where('bimbingan_id', $proposal->bimbingan_id)->orderBy('created_at', 'desc')->first();
+      }
          
-      return view('mahasiswa.tugasakhir', compact('proposal', 'dosen'));
-   }
-
-   public function bimbingan()
-   {
-      return view('mahasiswa.bimbingan');
+      return view('mahasiswa.tugasakhir', compact('proposal', 'dosen', 'jadwal'));
    }
 
    public function tugasakhirCreate(Request $request) 
@@ -54,5 +55,16 @@ class MahasiswaController extends Controller
       return back()->with('success',  'Data tugas akhir berhasil diperbarui');
    }
 
-   
+   public function bimbingan()
+   {
+      $bimbingan = Bimbingan::where('mahasiswa_id', Auth::user()->id)->first();
+      if ($bimbingan) {
+         $jadwalBaru = Jadwal::where('bimbingan_id', $bimbingan->id)->orderBy('created_at', 'desc')->first();
+         $jadwalLama = Jadwal::where('bimbingan_id', $bimbingan->id)->where('id', '!=', $jadwalBaru->id)->orderBy('created_at', 'desc')->get();
+         return view('mahasiswa.bimbingan', compact('jadwalLama', 'jadwalBaru'));
+      } else {
+         return view('mahasiswa.bimbingan');
+      }
+   }
+
 }

@@ -18,8 +18,8 @@ class CreateJadwalsTable extends Migration
             $table->foreignId('bimbingan_id')->constrained('bimbingan');
             $table->date('tgl_bimbingan');
             $table->string('judul');
-            $table->string('catatan')->nullable();
-            $table->string('revisi')->nullable();
+            $table->text('catatan')->nullable();
+            $table->text('revisi')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();
         });

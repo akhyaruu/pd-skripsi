@@ -11,14 +11,12 @@
          <div class="white-box analytics-info">
             <h3 class="box-title">Jumlah Bimbingan</h3>
             <p class="text-success fw-bold">{{ $jumlahBimbingan }} Mahasiswa</p>
-            <!-- <p class="text-danger">belum ada jadwal</p> -->
          </div>
       </div>
       <div class="col-lg-6 col-md-6">
          <div class="white-box analytics-info">
             <h3 class="box-title">Bimbingan Baru</h3>
             <p class="text-success fw-bold">{{ $jumlahBimbinganBaru }} Mahasiswa</p>
-            <!-- <p class="text-danger">belum ada jadwal</p> -->
             <small class="text-info" style="float: right;" data-bs-toggle="modal" data-bs-target="#mhsModal">cek
                mahasiswa <i class="fas fa-arrow-right"></i></small>
          </div>
@@ -134,10 +132,9 @@
             <div class="modal-body">
                <ul class="list-group">
                   @foreach ($proposal as $item)
-                  @if (!isset($item->bimbingan_id))
-                  <li class="list-group-item">{{ $item->mahasiswa }}</li>
+                  @if (isset($item->bimbingan_id))
                   @else
-                  @break
+                  <li class="list-group-item">{{ $item->mahasiswa }}</li>
                   @endif
                   @endforeach
                </ul>

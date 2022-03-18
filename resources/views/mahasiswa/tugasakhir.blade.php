@@ -15,16 +15,18 @@
             <p>{{ $dosen->nama_dosen }}</p>
             @endif
             @else
-            <p class="text-danger fw-bold">belum ada dosen pembimbing</p>
+            <p class="text-danger">belum ada dosen pembimbing</p>
             @endif
          </div>
       </div>
       <div class="col-lg-4 col-md-4">
          <div class="white-box analytics-info">
             <h3 class="box-title">Bimbingan Selanjutnya</h3>
-            <p class="text-success fw-bold">12 Januari 2020</p>
-            <!-- <p class="text-danger">belum ada jadwal</p> -->
-            <small class="text-info" style="float: right;">cek jadwal <i class="fas fa-arrow-right"></i></small>
+            @if (isset($jadwal))
+            <p class="">{{ date("d-m-Y", strtotime($jadwal->tgl_bimbingan)) }}</p>
+            @else
+            <p class="text-danger">belum ada jadwal bimbingan</p>
+            @endif
          </div>
       </div>
       <div class="col-lg-4 col-md-4">
@@ -33,7 +35,7 @@
             @if ($proposal)
             <p>{{ date("d-m-Y", strtotime($proposal->created_at)) }}</p>
             @else
-            <p class="text-danger fw-bold">belum mengajukan judul</p>
+            <p class="text-danger">belum mengajukan judul</p>
             @endif
 
          </div>
@@ -71,11 +73,9 @@
                   @endif
 
                   @if ($proposal)
-                  <button class="mt-4 btn btn-warning bEdit"><i class="fas fa-pencil-alt"></i> Edit tugas
-                     akhir</button>
+                  <button class="mt-4 btn btn-warning bEdit"><i class="fas fa-pencil-alt"></i> Edit Tugas Akhir</button>
                   @else
-                  <button class="mt-4 btn btn-primary bTambah"><i class="fas fa-plus"></i> Tambah tugas
-                     akhir</button>
+                  <button class="mt-4 btn btn-primary bTambah"><i class="fas fa-plus"></i> Tambah Tugas Akhir</button>
                   @endif
                </div>
 
@@ -231,7 +231,7 @@ $(document).ready(function() {
          if (abstrak) {
             $("#isiAbstrak").text(abstrak);
          } else {
-            $("#isiAbstrak").text('abstrak belum ditambahkan');
+            $("#isiAbstrak").text('-abstrak belum ditambahkan-');
          }
       });
    }
