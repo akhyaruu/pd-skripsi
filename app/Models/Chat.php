@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Chat extends Model
 {
-    use HasFactory;
+   use HasFactory;
+   protected $fillable = ['dosen_id', 'mahasiswa_id', 'sender', 'isi'];
 }

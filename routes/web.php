@@ -69,6 +69,8 @@ Route::prefix('/dosen')->middleware(['auth', 'dosen'])->group(function () {
    Route::post('/m-bimbingan/jadwal/update/selesai', [App\Http\Controllers\DosenController::class, 'bimbinganJadwalUpdateSelesai'])->name('m-bimbingan.jadwal.update.selesai');
    Route::post('/m-bimbingan/jadwal/update/seminar', [App\Http\Controllers\DosenController::class, 'bimbinganJadwalUpdateSeminar'])->name('m-bimbingan.jadwal.update.seminar');
    Route::post('/m-bimbingan/jadwal/update/sidang', [App\Http\Controllers\DosenController::class, 'bimbinganJadwalUpdateSidang'])->name('m-bimbingan.jadwal.update.sidang');
+   Route::get('/chat/kosultasi', [App\Http\Controllers\DosenController::class, 'chat'])->name('chat.dosen');
+   Route::post('/chat/kosultasi/send', [App\Http\Controllers\DosenController::class, 'chatCreate'])->name('chat.dosen.send');
 });
 
 Route::prefix('/mahasiswa')->middleware(['auth', 'mahasiswa'])->group(function () {
@@ -76,4 +78,6 @@ Route::prefix('/mahasiswa')->middleware(['auth', 'mahasiswa'])->group(function (
    Route::post('/tugasakhir/create', [App\Http\Controllers\MahasiswaController::class, 'tugasakhirCreate'])->name('tugasakhir.create');
    Route::post('/tugasakhir/update', [App\Http\Controllers\MahasiswaController::class, 'tugasakhirUpdate'])->name('tugasakhir.update');
    Route::get('/bimbingan', [App\Http\Controllers\MahasiswaController::class, 'bimbingan'])->name('bimbingan');
+   Route::get('/chat/konsultasi', [App\Http\Controllers\MahasiswaController::class, 'chat'])->name('chat.mahasiswa');
+   Route::post('/chat/konsultasi/send', [App\Http\Controllers\MahasiswaController::class, 'chatCreate'])->name('chat.mahasiswa.send');
 });

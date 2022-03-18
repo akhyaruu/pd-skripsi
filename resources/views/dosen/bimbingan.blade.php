@@ -69,7 +69,7 @@
                         <td class="txt-oflo">{{ $item->mahasiswa }}</td>
                         <td class="txt-oflo">{{ $item->topik }}</td>
                         <td class="txt-oflo">{{ $item->judul }}</td>
-                        <td style="min-width:150px">
+                        <td style="min-width:170px">
                            <a href="{{ route('m-bimbingan.jadwal', ['id' => $item->id]) }}" type="button"
                               class="btn btn-primary" title="Jadwal Bimbingan"><i class="fas fa-calendar-minus"></i>
                            </a>
@@ -78,6 +78,9 @@
                            <button class="btn btn-warning bEdit" idProposal="{{ $item->id }}" title="Edit Proposal"
                               data-bs-toggle="modal" data-bs-target="#editModal"><i
                                  class="fas fa-pencil-alt"></i></button>
+                           <a href="{{ route('chat.dosen', ['id' => $item->mahasiswa_id]) }}" type="button"
+                              class="btn btn-info text-white" title="Chat Mahasiswa"><i
+                                 class="fas fa-paper-plane"></i></a>
                         </td>
                      </tr>
                      @endforeach

@@ -17,8 +17,9 @@ class CreateChatsTable extends Migration
             $table->id();
             $table->foreignId('dosen_id')->constrained('users');
             $table->foreignId('mahasiswa_id')->constrained('users');
-            $table->string('isi');
-            $table->date('created_at');
+            $table->string('sender');
+            $table->text('isi');
+            $table->timestamps();
         });
     }
 

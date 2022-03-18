@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bimbingan;
+use App\Models\Chat;
 use App\Models\Jadwal;
 use App\Models\Proposal;
+use App\Models\TugasAkhir;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -65,6 +67,27 @@ class MahasiswaController extends Controller
       } else {
          return view('mahasiswa.bimbingan');
       }
+   }
+
+   public function chat()
+   {
+      $proposal = Proposal::where('mahasiswa_id', Auth::user()->id)->first();
+      $chat = Chat::where('mahasiswa_id', Auth::user()->id)->get();
+      return view('mahasiswa.chat', compact('proposal', 'chat'));
+   }
+
+   public function chatCreate(Request $request)
+   {
+      $validate = $request->validate([
+         'isi'     => 'required',
+      ]);
+
+      $tugasAkhir = TugasAkhir::where('mahasiswa_id', Auth::user()->id)->first();
+      $validate['dosen_id'] = $tugasAkhir->dosen_id;
+      $validate['mahasiswa_id'] = Auth::user()->id;
+      $validate['sender'] = 'mahasiswa';
+      Chat::create($validate);
+      return back()->with('success',  'Chat baru berhasil ditambahkan');
    }
 
 }

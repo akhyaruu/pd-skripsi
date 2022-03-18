@@ -52,4 +52,11 @@
       <span class="hide-menu">Bimbingan</span>
    </a>
 </li>
+<li class="sidebar-item">
+   <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('chat.mahasiswa') }}"
+      aria-expanded="false">
+      <i class="fas fa-paper-plane" aria-hidden="true"></i>
+      <span class="hide-menu">Chat Konsultasi</span>
+   </a>
+</li>
 @endif
