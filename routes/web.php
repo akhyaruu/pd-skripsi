@@ -22,9 +22,9 @@ Route::get('/', function () {
 });
 
 
-Route::get('/blank', function () {
-   return view('admin.blank');
-})->name('blank');
+// Route::get('/blank', function () {
+//    return view('admin.blank');
+// })->name('blank');
 
 Auth::routes();
 
@@ -46,6 +46,8 @@ Auth::routes();
 Route::middleware(['auth'])->group(function () {
    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
    Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('profile');
+   Route::post('/profile/update', [App\Http\Controllers\HomeController::class, 'profileUpdate'])->name('profile.update');
+   Route::post('/profile/password/update', [App\Http\Controllers\HomeController::class, 'passwordUpdate'])->name('password.update');
 });
 
 

@@ -70,7 +70,10 @@ class AdminController extends Controller
       $proposal = DB::table('proposal')->join('users', 'proposal.mahasiswa_id', '=', 'users.id')
                ->select('proposal.*', 'users.name as mahasiswa')->orderBy('created_at', 'desc')->get();
       $user = User::all();
-      return view('madmin.tugasakhir', compact('proposal', 'user'));
+      $tugasAkhir = TugasAkhir::all()->count();
+      $seminar = TugasAkhir::where('seminar', 'selesai')->count();
+      $sidang = TugasAkhir::where('sidang', 'selesai')->count();
+      return view('madmin.tugasakhir', compact('proposal', 'user', 'tugasAkhir', 'seminar', 'sidang'));
    }
 
    public function tugasakhirAssign(Request $request)

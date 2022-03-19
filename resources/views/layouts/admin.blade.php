@@ -56,12 +56,13 @@
                      </li>
                      <li>
                         <a class="profile-pic" href="#">
-                           @if (isset(Auth::user()->avatar))
+                           <!-- @if (isset(Auth::user()->avatar))
                            <img src="{{ Auth::user()->avatar }}" alt="user-img" width="36" class="img-circle"><span
                               class="text-white font-medium">{{ Auth::user()->name }}</span>
                            @else
                            <span class="text-white font-medium">{{ Auth::user()->name }}</span>
-                           @endif
+                           @endif -->
+                           <span class="text-white font-medium">{{ Auth::user()->name }}</span>
                         </a>
                      </li>
                   </ul>

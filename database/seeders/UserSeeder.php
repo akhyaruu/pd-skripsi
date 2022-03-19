@@ -43,7 +43,7 @@ class UserSeeder extends Seeder
          'password' => bcrypt('mhs'),
       ]);
       User::create([ 
-         'name' => 'Nishikata Takagi',
+         'name' => 'Sakura Surya',
          'role_id' => '3',
          'username' => 'H96867033',
          'email' => 'mhs3@gmail.com',
