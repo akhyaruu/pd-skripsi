@@ -87,7 +87,7 @@ class MahasiswaController extends Controller
       $validate['mahasiswa_id'] = Auth::user()->id;
       $validate['sender'] = 'mahasiswa';
       Chat::create($validate);
-      return back()->with('success',  'Chat baru berhasil ditambahkan');
+      return back();
    }
 
 }

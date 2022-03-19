@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bimbingan;
+use App\Models\Chat;
 use App\Models\Jadwal;
 use App\Models\Proposal;
 use App\Models\TugasAkhir;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -181,6 +183,36 @@ class DosenController extends Controller
       return back()->with('success',  'Status sidang proposal berhasil diubah menjadi selesai');
    }
    
+   public function chat($idMhs)
+   {
+      $idMahasiswa = array();
+      $cekIdMahasiswa = TugasAkhir::where('dosen_id', Auth::user()->id)->get();
+         
+      foreach ($cekIdMahasiswa as $mhs) {
+        array_push($idMahasiswa, $mhs->mahasiswa_id);
+      }
+      if (!in_array($idMhs, $idMahasiswa)) {
+         return back();
+      }
+      
+
+      $mahasiswa = User::findOrFail($idMhs);
+      $chat = Chat::where('dosen_id', Auth::user()->id)->where('mahasiswa_id', $idMhs)->get();
+      return view('dosen.chat', compact('chat', 'mahasiswa'));
+   }
+
+   public function chatCreate(Request $request)
+   {
+      $validate = $request->validate([
+         'isi'             => 'required',
+         'mahasiswa_id'    => 'required',
+      ]);
+
+      $validate['dosen_id'] = Auth::user()->id;
+      $validate['sender'] = 'dosen';
+      Chat::create($validate);
+      return back();
+   }
 
 
 }

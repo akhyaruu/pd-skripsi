@@ -69,7 +69,7 @@ Route::prefix('/dosen')->middleware(['auth', 'dosen'])->group(function () {
    Route::post('/m-bimbingan/jadwal/update/selesai', [App\Http\Controllers\DosenController::class, 'bimbinganJadwalUpdateSelesai'])->name('m-bimbingan.jadwal.update.selesai');
    Route::post('/m-bimbingan/jadwal/update/seminar', [App\Http\Controllers\DosenController::class, 'bimbinganJadwalUpdateSeminar'])->name('m-bimbingan.jadwal.update.seminar');
    Route::post('/m-bimbingan/jadwal/update/sidang', [App\Http\Controllers\DosenController::class, 'bimbinganJadwalUpdateSidang'])->name('m-bimbingan.jadwal.update.sidang');
-   Route::get('/chat/kosultasi', [App\Http\Controllers\DosenController::class, 'chat'])->name('chat.dosen');
+   Route::get('/chat/{id}/kosultasi', [App\Http\Controllers\DosenController::class, 'chat'])->name('chat.dosen');
    Route::post('/chat/kosultasi/send', [App\Http\Controllers\DosenController::class, 'chatCreate'])->name('chat.dosen.send');
 });
 

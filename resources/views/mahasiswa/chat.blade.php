@@ -19,7 +19,7 @@
 
    @if (isset($proposal->tugas_akhir_id))
    <div class="row mb-3">
-      <form action="{{ route('chat.mahasiswa.send') }}" method="post">
+      <form action="{{ route('chat.mahasiswa.send') }}" method="post" autocomplete="off">
          @csrf
          <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1"><i class="fas fa-paper-plane"></i></span>
