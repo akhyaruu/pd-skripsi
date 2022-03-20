@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,4 +83,13 @@ Route::prefix('/mahasiswa')->middleware(['auth', 'mahasiswa'])->group(function (
    Route::get('/bimbingan', [App\Http\Controllers\MahasiswaController::class, 'bimbingan'])->name('bimbingan');
    Route::get('/chat/konsultasi', [App\Http\Controllers\MahasiswaController::class, 'chat'])->name('chat.mahasiswa');
    Route::post('/chat/konsultasi/send', [App\Http\Controllers\MahasiswaController::class, 'chatCreate'])->name('chat.mahasiswa.send');
+   // Route::get('/download/{filename}', [App\Http\Controllers\MahasiswaController::class, 'download'])->name('download');
+
+   Route::get('/download/{filename}', function ($filename) {
+      $filePath = Storage::url('public/user/'.$filename);
+    	$headers = ['Content-Type: application/pdf'];
+    	$fileName = 'proposal.pdf';
+
+    	return response()->download($filePath, $fileName, $headers);
+   })->name('download');
 });

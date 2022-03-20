@@ -10,6 +10,7 @@ use App\Models\TugasAkhir;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class MahasiswaController extends Controller
 {
@@ -49,10 +50,17 @@ class MahasiswaController extends Controller
          'topik'     => 'required|min:3|max:255',
          'judul'     => 'required|min:3|max:255',
          'abstrak'   => 'min:10|max:2000|nullable',
-         'file'      => 'mimes:pdf,doc,docx|max:1000|nullable',
+         'proposal'  => 'max:10000|nullable',
       ]);
-
       $proposal = Proposal::findOrFail($request->id);
+
+      if ($request->hasFile('proposal')) {
+         if (isset($proposal->file)) {
+            Storage::delete($proposal->file);
+         }
+         $path = Storage::disk('local')->put('public/user', $request->file('proposal'));
+         $validate['file'] = $path;
+      }
       $proposal->update($validate);
       return back()->with('success',  'Data tugas akhir berhasil diperbarui');
    }
@@ -88,6 +96,15 @@ class MahasiswaController extends Controller
       $validate['sender'] = 'mahasiswa';
       Chat::create($validate);
       return back();
+   }
+
+   function download($filename)
+   {
+      $filePath = Storage::url('public/storage/user/'.$filename);
+    	$headers = ['Content-Type: application/pdf'];
+    	$fileName = 'proposal.pdf';
+
+    	return response()->download($filePath, $fileName, $headers);
    }
 
 }

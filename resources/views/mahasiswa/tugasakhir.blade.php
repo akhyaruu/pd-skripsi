@@ -116,7 +116,8 @@
                            <td style="min-width:150px">
                               <button class="btn btn-primary bAbstrak" data-bs-toggle="modal"
                                  data-bs-target="#abstrakModal">Abstrak</button>
-                              <button class="btn btn-primary">File</button>
+                              <a href="{{ route('download', ['filename' => $proposal->file]) }}" type="button"
+                                 class="btn btn-primary">File</a>
                            </td>
                         </tr>
                      </tbody>
@@ -125,7 +126,7 @@
                @endif
 
                <div class="col-md-9 divFormProposal" style="display: none;">
-                  <form class="formProposal" action="" method="POST">
+                  <form class="formProposal" action="" method="POST" enctype="multipart/form-data">
                      @csrf
                      <div class="mb-3">
                         <label for="topikForm" class="form-label">Topik</label>
@@ -149,7 +150,7 @@
                         </div>
                         <div class="mb-3">
                            <label for="proposalForm" class="form-label">File Proposal</label>
-                           <input type="file" name="file" class="form-control" id="proposalForm">
+                           <input type="file" name="proposal" class="form-control" id="proposalForm">
                         </div>
                      </div>
                      <!-- apabila sudah di acc judulnya -->
