@@ -73,8 +73,14 @@
                            <a href="{{ route('m-bimbingan.jadwal', ['id' => $item->id]) }}" type="button"
                               class="btn btn-primary" title="Jadwal Bimbingan"><i class="fas fa-calendar-minus"></i>
                            </a>
-                           <button class="btn btn-primary" title="File Proposal"><i
+                           @if ($item->file)
+                           <a type="button" href="{{ url('/').'/'.$item->file }}" class="btn btn-primary"
+                              title="File Proposal"><i class="fas fa-file-alt"></i></a>
+                           @else
+                           <button class="btn btn-secondary" title="File Proposal" disabled><i
                                  class="fas fa-file-alt"></i></button>
+                           @endif
+
                            <button class="btn btn-warning bEdit" idProposal="{{ $item->id }}" title="Edit Proposal"
                               data-bs-toggle="modal" data-bs-target="#editModal"><i
                                  class="fas fa-pencil-alt"></i></button>

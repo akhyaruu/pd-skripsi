@@ -56,10 +56,11 @@ class MahasiswaController extends Controller
 
       if ($request->hasFile('proposal')) {
          if (isset($proposal->file)) {
-            Storage::delete($proposal->file);
+            $path = str_replace('storage', 'public', $proposal->file);
+            Storage::delete($path);
          }
          $path = Storage::disk('local')->put('public/user', $request->file('proposal'));
-         $validate['file'] = $path;
+         $validate['file'] = 'storage/user/' . basename($path);
       }
       $proposal->update($validate);
       return back()->with('success',  'Data tugas akhir berhasil diperbarui');

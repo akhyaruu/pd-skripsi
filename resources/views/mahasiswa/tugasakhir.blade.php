@@ -116,8 +116,12 @@
                            <td style="min-width:150px">
                               <button class="btn btn-primary bAbstrak" data-bs-toggle="modal"
                                  data-bs-target="#abstrakModal">Abstrak</button>
-                              <a href="{{ route('download', ['filename' => $proposal->file]) }}" type="button"
+                              @if ($proposal->file)
+                              <a href="{{ url('/').'/'.$proposal->file }}" type="button"
                                  class="btn btn-primary">File</a>
+                              @else
+                              <button type="button" class="btn btn-secondary" disabled>File</button>
+                              @endif
                            </td>
                         </tr>
                      </tbody>
