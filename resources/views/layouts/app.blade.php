@@ -10,7 +10,7 @@
    <title>Login Page</title>
 </head>
 
-<body style="background-color: #dfebfd">
+<body style="background-color: #707CD2">
 
    @yield('content')
 
