@@ -192,16 +192,13 @@
 
 <main>
    <div class="container-fluid">
-      <div class="row align-items-center" style="width: 50%; margin: 0 auto;">
+      <div class="row justify-content-center align-items-center mt-5">
 
-         <div class="col-md-12 col-sm-12">
+         <div class=" col-md-6 col-sm-12">
 
             <div class="card rounded">
-               <div class="row align-items-center">
-                  <div class="col text-primary">
-                     <div class="d-flex justify-content-center">
-                        <!-- <button class="btn mx-2 btn-primary btn-rounded" id="btn-login">Login</button> -->
-                     </div>
+               <div class="">
+                  <div class="text-primary">
 
 
                      <div class="cards" id="login-card">
