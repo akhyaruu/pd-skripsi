@@ -17,8 +17,8 @@
          <div class="white-box analytics-info">
             <h3 class="box-title">Bimbingan Baru</h3>
             <p class="text-success fw-bold">{{ $jumlahBimbinganBaru }} Mahasiswa</p>
-            <small class="text-info" style="float: right;" data-bs-toggle="modal" data-bs-target="#mhsModal">cek
-               mahasiswa <i class="fas fa-arrow-right"></i></small>
+            <small class="text-info" style="float: right; cursor: pointer" data-bs-toggle="modal"
+               data-bs-target="#mhsModal">cek mahasiswa <i class="fas fa-arrow-right"></i></small>
          </div>
       </div>
    </div>
@@ -49,7 +49,7 @@
                         <th class="border">Mahasiswa</th>
                         <th class="border">Topik</th>
                         <th class="border">Judul</th>
-                        <th class="border">Action</th>
+                        <th class="border">Aksi</th>
                      </tr>
                   </thead>
                   <tbody>

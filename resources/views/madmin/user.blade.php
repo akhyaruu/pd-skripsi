@@ -64,7 +64,7 @@
                         <th class="border">Nama</th>
                         <th class="border">Kategori</th>
                         <th class="border">NIDN/NIM</th>
-                        <th class="border">Action</th>
+                        <th class="border">Aksi</th>
                      </tr>
                   </thead>
                   <tbody>
@@ -100,7 +100,7 @@
                               <input type="hidden" name="id" value="{{ $item->id }}">
                               <button type="submit"
                                  onclick="return confirm('apakah kamu yakin menghapus {{$item->name}}?')"
-                                 class="btn btn-danger mx-1" title="Delete"><i
+                                 class="btn btn-danger mx-1" title="Hapus"><i
                                     class="fas fa-trash-alt text-white"></i></button>
                            </form>
                         </td>
@@ -157,10 +157,7 @@
                   </div>
                </form>
             </div>
-            <!-- <div class="modal-footer">
-               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-               <button type="button" class="btn btn-primary"><i class="fas fa-pencil-alt"></i> Edit</button>
-            </div> -->
+
          </div>
       </div>
    </div>

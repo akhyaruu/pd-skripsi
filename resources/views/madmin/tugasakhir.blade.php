@@ -53,7 +53,7 @@
                         <th class="border">Mahasiswa</th>
                         <th class="border">Topik</th>
                         <th class="border">Judul</th>
-                        <th class="border">Action</th>
+                        <th class="border">Aksi</th>
                      </tr>
                   </thead>
                   <tbody>
@@ -90,6 +90,7 @@
       </div>
    </div>
 
+   <!-- dalam bimbingan -->
    <!-- <div class="row">
       <div class="col-md-12 col-lg-12 col-sm-12">
          <div class="white-box">
@@ -158,9 +159,7 @@ $(document).ready(function() {
    let idProposal = '';
 
    $("#pengajuanTable").on('click', '.bAssign', function() {
-
       idProposal = $(this).attr('idProposal');
-
       proposal.forEach(element => {
          if (element.id == idProposal) {
             $("#input-mahasiswa").val(element.mahasiswaId);
@@ -168,7 +167,6 @@ $(document).ready(function() {
 
          }
       });
-
 
    });
 
