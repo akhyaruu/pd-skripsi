@@ -190,7 +190,8 @@
 
 
 
-<main>
+<!-- login lama -->
+<!-- <main>
    <div class="container-fluid">
       <div class="row justify-content-center align-items-center mt-5">
 
@@ -278,6 +279,66 @@
 
       </div>
    </div>
-</main>
+</main> -->
+
+
+
+<!-- login baru -->
+<section class="">
+   <div class="px-4 py-5 px-md-5 text-lg-start" style="background-color: hsl(0, 0%, 96%)">
+      <div class="container py-5">
+         <div class="row py-4 gx-lg-5 align-items-center">
+
+            <div class="col-lg-5 mb-5 mb-lg-0">
+               <h1 class="my-5 display-6 fw-bold ls-tight">
+                  Sistem <br />
+                  <span class="text-primary">Pendampingan Skripsi</span>
+               </h1>
+            </div>
+
+            <div class="col-lg-7 mb-5 mb-lg-0">
+               <div class="card">
+                  <div class="card-body py-5 px-md-5">
+
+                     <form method="POST" action="{{ route('login') }}">
+                        @csrf
+                        <div class="mb-3">
+                           <label class="form-label">Email or Username</label>
+                           <input id="username" type="username"
+                              class="form-control @error('username') is-invalid @enderror" name="username"
+                              value="{{ old('username') }}" required autocomplete="off" autofocus>
+                           @error('username')
+                           <span class="invalid-feedback" role="alert">
+                              <strong>{{ $message }}</strong>
+                           </span>
+                           @enderror
+                        </div>
+
+                        <div class="mb-3">
+                           <label class="form-label">Password</label>
+                           <input id="password" type="password"
+                              class="form-control @error('password') is-invalid @enderror" name="password" required
+                              autocomplete="off">
+                           @error('password')
+                           <span class="invalid-feedback" role="alert">
+                              <strong>{{ $message }}</strong>
+                           </span>
+                           @enderror
+                        </div>
+
+                        <div class="d-grid gap-2 mx-auto pt-3">
+                           <button class="btn btn-primary py-2" type="submit">Sign in</button>
+                        </div>
+                     </form>
+
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+</section>
+
 
 @endsection
