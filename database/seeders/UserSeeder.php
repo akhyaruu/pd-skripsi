@@ -18,15 +18,15 @@ class UserSeeder extends Seeder
          'name' => 'Dr. H. Jainudin, M.Si',
          'role_id' => '2',
          'username' => '196205081991031002',
-         'email' => 'dosen1@gmail.com',
-         'password' => bcrypt('dosen'),
+         'email' => 'dsn1@gmail.com',
+         'password' => bcrypt('dsn'),
       ]);
       User::create([ 
          'name' => 'Prof. Dr. Ahmad Imam Mawardi, MA',
          'role_id' => '2',
          'username' => '197008201994031001',
-         'email' => 'dosen2@gmail.com',
-         'password' => bcrypt('dosen'),
+         'email' => 'dsn2@gmail.com',
+         'password' => bcrypt('dsn'),
       ]);
       User::create([ 
          'name' => 'Zaki Munkar Azzam',
